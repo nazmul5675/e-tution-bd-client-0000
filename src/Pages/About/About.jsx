@@ -1,0 +1,63 @@
+import React from "react";
+import { FaChalkboardTeacher, FaUsers, FaDollarSign } from "react-icons/fa";
+
+const About = () => {
+    return (
+        <div className="max-w-7xl mx-auto px-4 py-16">
+            {/* Hero Section */}
+            <div className="text-center mb-16">
+                <h1 className="text-4xl font-bold text-primary mb-4">
+                    About eTuitionBd
+                </h1>
+                <p className=" text-lg md:text-xl max-w-2xl mx-auto">
+                    eTuitionBd is a modern platform that connects students with qualified tutors,
+                    enabling seamless tuition management, secure payments, and structured communication.
+                </p>
+            </div>
+
+            {/* Features Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+                <div className="p-6 rounded-lg shadow-lg hover:shadow-xl transition-all bg-base-100">
+                    <FaChalkboardTeacher className="text-4xl text-primary mx-auto mb-4" />
+                    <h2 className="text-xl font-bold mb-2 text-secondary">
+                        Find Qualified Tutors
+                    </h2>
+                    <p className="">
+                        Browse verified tutors for any subject and class. Easy matching for students.
+                    </p>
+                </div>
+
+                <div className="p-6 rounded-lg shadow-lg hover:shadow-xl transition-all bg-base-100">
+                    <FaUsers className="text-4xl text-primary mx-auto mb-4" />
+                    <h2 className="text-xl font-bold mb-2 text-secondary">
+                        Student-Tutor Connection
+                    </h2>
+                    <p className="">
+                        Automated workflows reduce friction and improve communication between students and tutors.
+                    </p>
+                </div>
+
+                <div className="p-6 rounded-lg shadow-lg hover:shadow-xl transition-all bg-base-100">
+                    <FaDollarSign className="text-4xl text-primary mx-auto mb-4" />
+                    <h2 className="text-xl font-bold mb-2 text-secondary">
+                        Transparent Payments
+                    </h2>
+                    <p className="">
+                        Secure payment tracking for every tuition. Only approved tutors get paid.
+                    </p>
+                </div>
+            </div>
+
+            {/* Optional Mission / Vision Section */}
+            <div className="mt-20 text-center">
+                <h2 className="text-3xl font-bold text-primary mb-6">Our Mission</h2>
+                <p className=" text-lg max-w-3xl mx-auto">
+                    Our mission is to make quality education accessible and trustworthy for every student.
+                    We ensure verified tutors, transparent tuition processes, and a seamless learning experience.
+                </p>
+            </div>
+        </div>
+    );
+};
+
+export default About;
