@@ -1,2 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
-@plugin "daisyui";
+
+
+@plugin "daisyui" {
+  themes: light, dark;
+}
+
+/* Light Theme */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+
+  --color-primary: #89c33f;
+  --color-secondary: #424649;
+  --color-base-content: #2d3748;
+}
+
+/* Dark Theme */
+@plugin "daisyui/theme" {
+  name: "dark";
+
+  --color-primary: #89c33f;
+  --color-secondary: #424649;
+  --color-base-content: #f3f4f6;
+
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
