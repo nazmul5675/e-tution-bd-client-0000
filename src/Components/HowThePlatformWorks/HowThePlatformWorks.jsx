@@ -7,7 +7,7 @@ const HowThePlatformWorks = () => {
 
             <div className="flex flex-col sm:flex-row gap-12">
                 {/* Step 1 */}
-                <div className="bg-white p-10 rounded-3xl shadow-2xl transform hover:-translate-y-4 hover:rotate-1 transition-all relative flex-1">
+                <div className="bg-white/60 p-10 rounded-3xl shadow-2xl transform hover:-translate-y-4 hover:rotate-1 transition-all relative flex-1">
                     <div className="w-16 h-16 bg-primary to-secondary flex items-center justify-center rounded-full mb-6 text-3xl text-white">
                         <Pin />
                     </div>
@@ -19,7 +19,7 @@ const HowThePlatformWorks = () => {
                 </div>
 
                 {/* Step 2 */}
-                <div className="bg-white p-10 rounded-3xl shadow-2xl transform hover:-translate-y-4 hover:-rotate-1 transition-all relative flex-1">
+                <div className="bg-white/60 p-10 rounded-3xl shadow-2xl transform hover:-translate-y-4 hover:-rotate-1 transition-all relative flex-1">
                     <div className="w-16 h-16 bg-primary to-secondary flex items-center justify-center rounded-full mb-6 text-3xl text-white">
                         <GraduationCap />
                     </div>
@@ -31,7 +31,7 @@ const HowThePlatformWorks = () => {
                 </div>
 
                 {/* Step 3 */}
-                <div className="bg-white p-10 rounded-3xl shadow-2xl transform hover:-translate-y-4 hover:rotate-2 transition-all relative flex-1">
+                <div className="bg-white/60 p-10 rounded-3xl shadow-2xl transform hover:-translate-y-4 hover:rotate-2 transition-all relative flex-1">
                     <div className="w-16 h-16 bg-primary to-secondary  flex items-center justify-center rounded-full mb-6 text-3xl text-white">
                         <CircleCheckBig />
                     </div>

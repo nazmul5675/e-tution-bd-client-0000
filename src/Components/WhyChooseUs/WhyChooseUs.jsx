@@ -6,7 +6,7 @@ const WhyChooseUs = () => {
         <div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
                 {/* Feature 1 */}
-                <div className="bg-white p-10 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
+                <div className="bg-white/60 p-10 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="absolute -top-5 -left-5 w-20 h-20 bg-primary opacity-10 rounded-full"></div>
                     <div className="w-16 h-16 bg-primary to-secondary text-white flex items-center justify-center rounded-full mb-6 text-3xl">
                         <Star />
@@ -18,7 +18,7 @@ const WhyChooseUs = () => {
                 </div>
 
                 {/* Feature 2 */}
-                <div className="bg-white p-10 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
+                <div className="bg-white/60 p-10 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="absolute -bottom-5 -right-5 w-20 h-20 bg-primary opacity-10 rounded-full"></div>
                     <div className="w-16 h-16 bg-primary to-secondary text-white flex items-center justify-center rounded-full mb-6 text-3xl">
                         <CreditCard />
@@ -30,7 +30,7 @@ const WhyChooseUs = () => {
                 </div>
 
                 {/* Feature 3 */}
-                <div className="bg-white p-10 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
+                <div className="bg-white/60 p-10 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="absolute -top-5 -right-5 w-20 h-20 bg-primary opacity-10 rounded-full"></div>
                     <div className="w-16 h-16 bg-primary to-secondary text-white flex items-center justify-center rounded-full mb-6 text-3xl">
                         <Zap />

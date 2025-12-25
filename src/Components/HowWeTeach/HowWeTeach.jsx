@@ -24,7 +24,7 @@ const HowWeTeach = () => {
     return (
         <section className="max-w-7xl mx-auto px-4 py-28 ">
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+            <div className=" grid grid-cols-1 sm:grid-cols-3 gap-10">
                 {teachingSteps.map((step, i) => (
                     <motion.div
                         key={i}
@@ -32,13 +32,13 @@ const HowWeTeach = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.3, type: "spring", stiffness: 120 }}
-                        className=" backdrop-blur-lg rounded-3xl shadow-2xl p-8 flex flex-col items-center text-center hover:scale-105 hover:shadow-3xl transition-all cursor-pointer"
+                        className="bg-white/60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 flex flex-col items-center  hover:scale-105 hover:shadow-3xl transition-all cursor-pointer"
                     >
-                        <div className="w-16 h-16 rounded-full bg-primary to-secondary flex items-center justify-center mb-6 text-white ">
+                        <div className=" w-16 h-16 rounded-full bg-primary to-secondary flex items-center justify-center mb-6  ">
                             {step.icon}
                         </div>
-                        <h3 className="text-2xl font-semibold  mb-3">{step.title}</h3>
-                        <p className=" text-lg leading-relaxed">{step.desc}</p>
+                        <h3 className="text-2xl font-semibold text-secondary  mb-3">{step.title}</h3>
+                        <p className=" text-lg text-center leading-relaxed text-secondary">{step.desc}</p>
                     </motion.div>
                 ))}
             </div>
