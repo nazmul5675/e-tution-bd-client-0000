@@ -29,6 +29,12 @@ const Navbar = () => {
                 Contact
             </NavLink>
         </li>
+        <li>
+            <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-primary font-bold" : ""}>
+                Dashboard
+            </NavLink>
+        </li>
+
     </>
 
     return (
@@ -53,7 +59,7 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn text-primary bg-primary/20">Login</a>
+                <Link to='/login' className="btn text-primary bg-primary/20">Login</Link>
             </div>
         </div>
     );
