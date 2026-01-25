@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Registration = () => {
+    const { registerUserWithEmailPass } = useContext(AuthContext);
     const [role, setRole] = useState("student");
 
     // Initialize react-hook-form
@@ -11,8 +13,9 @@ const Registration = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log("Form Data:", data);
+    const onSubmit = async (data) => {
+        const result = await registerUserWithEmailPass(data.email, data.password);
+        console.log(result.user);
 
     };
 

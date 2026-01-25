@@ -57,12 +57,19 @@ const ErrorPage = () => {
                                     </p>
                                     {error?.stack ? (
                                         <details className="mt-2">
-                                            <summary className="cursor-pointer font-medium">
-                                                View error stack
-                                            </summary>
-                                            <pre className="mt-2 p-3 rounded-xl bg-base-100 overflow-auto text-xs">
-                                                {error.stack}
-                                            </pre>
+
+                                            {import.meta.env.DEV && error?.stack && (
+                                                <details className="mt-2">
+                                                    <summary className="cursor-pointer font-medium">
+                                                        View error stack (dev only)
+                                                    </summary>
+
+                                                    <pre className="mt-2 p-3 rounded-xl bg-base-100 overflow-auto text-xs">
+                                                        {error.stack}
+                                                    </pre>
+                                                </details>
+                                            )}
+
                                         </details>
                                     ) : (
                                         <p className="mt-2">No extra details available.</p>
