@@ -9,12 +9,14 @@ import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration"
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import DashboardLayout from "../Layouts/DashboardLayout";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 
 export const router = createBrowserRouter([
     {
         path: "/",
         Component: HomeLayouts,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 index: true,

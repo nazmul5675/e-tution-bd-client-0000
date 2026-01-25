@@ -70,7 +70,7 @@ const Login = () => {
                 {/* Footer */}
                 <p className="text-center mt-4 text-gray-500">
                     Don't have an account?{" "}
-                    <Link className="text-primary font-semibold" href="/register">
+                    <Link className="text-primary font-semibold" to="/register">
                         Register
                     </Link>
                 </p>
