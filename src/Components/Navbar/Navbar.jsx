@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
+import { AuthContext } from '../../Context/AuthContext';
 
 const Navbar = () => {
+    const { user, signOutUser } = useContext(AuthContext)
     const link = <>
         <li>
             <NavLink to="/" className={({ isActive }) => isActive ? "text-primary font-bold" : ""}>
@@ -58,9 +60,13 @@ const Navbar = () => {
                     {link}
                 </ul>
             </div>
-            <div className="navbar-end">
+
+            {user ? (<div className="navbar-end">
+                <Link onClick={signOutUser} className="btn text-primary bg-primary/20">Log Out</Link>
+            </div>) : (<div className="navbar-end">
                 <Link to='/login' className="btn text-primary bg-primary/20">Login</Link>
-            </div>
+            </div>)}
+
         </div>
     );
 };

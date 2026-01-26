@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Context/AuthContext";
+import useAxios from "../../Hooks/useAxios";
 
 const Registration = () => {
-    const { registerUserWithEmailPass } = useContext(AuthContext);
+    const { registerUserWithEmailPass, updateUser } = useContext(AuthContext);
     const [role, setRole] = useState("student");
-
+    const axiosSecure = useAxios()
     // Initialize react-hook-form
     const {
         register,
@@ -16,6 +17,14 @@ const Registration = () => {
     const onSubmit = async (data) => {
         const result = await registerUserWithEmailPass(data.email, data.password);
         console.log(result.user);
+        const updateResult = await updateUser({ displayName: data.name });
+        console.log(updateResult);
+        axiosSecure.post('/users', data)
+            .then(res => {
+                if (res.data.insertedId) {
+                    alert('user created in successfully', "success");
+                }
+            })
 
     };
 
