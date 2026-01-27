@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
+import GoogleLogin from "../../Components/SocialMediaLogin/GoogleLogin";
 
 const Login = () => {
     const { signInUser } = useContext(AuthContext)
@@ -65,9 +66,7 @@ const Login = () => {
 
                 {/* Social Login */}
                 <div className="flex flex-col gap-3">
-                    <button className="btn btn-outline btn-primary w-full">
-                        Login with Google
-                    </button>
+                    <GoogleLogin></GoogleLogin>
                 </div>
 
                 {/* Footer */}

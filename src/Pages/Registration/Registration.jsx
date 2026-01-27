@@ -15,16 +15,26 @@ const Registration = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
+
         const result = await registerUserWithEmailPass(data.email, data.password);
         console.log(result.user);
         const updateResult = await updateUser({ displayName: data.name });
         console.log(updateResult);
-        axiosSecure.post('/users', data)
+        const userInfo = {
+            name: data.name,
+            email: data.email,
+            role: data.role,
+            phone: data.phone,
+            createdAt: new Date().toISOString(),
+        };
+
+        axiosSecure.post('/users', userInfo)
             .then(res => {
                 if (res.data.insertedId) {
                     alert('user created in successfully', "success");
                 }
             })
+
 
     };
 
