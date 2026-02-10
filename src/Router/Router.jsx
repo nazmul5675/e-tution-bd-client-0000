@@ -7,9 +7,20 @@ import About from "../Pages/About/About";
 import Contact from "../Pages/Contact/Contact";
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration"
-import Dashboard from "../Pages/Dashboard/Dashboard";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
+import MyTuitions from "../Pages/Dashboard/MyTuitions/MyTuitions";
+import AppliedTutors from "../Pages/Dashboard/AppliedTutors/AppliedTutors";
+import Payments from "../Pages/Dashboard/Payments/Payments";
+import PostNewTuition from "../Pages/Dashboard/PostNewTuition/PostNewTuition";
+import ProfileSettings from "../Pages/Dashboard/ProfileSettings/ProfileSettings";
+import MyApplications from "../Pages/Dashboard/MyApplications/MyApplications";
+import TutorOngoingTuitions from "../Pages/Dashboard/TutorOngoingTuitions/TutorOngoingTuitions";
+import RevenueHistory from "../Pages/Dashboard/RevenueHistory/RevenueHistory";
+import UserManagement from "../Pages/Dashboard/UserManagement/UserManagement";
+import TuitionManagement from "../Pages/Dashboard/TuitionManagement/TuitionManagement";
+import ReportsAndAnalytics from "../Pages/Dashboard/ReportsAndAnalytics/ReportsAndAnalytics";
 
 
 export const router = createBrowserRouter([
@@ -55,8 +66,55 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                Component: Dashboard
+                Component: DashboardHome
             },
+            // student page 
+            {
+                path: 'myTuitions',
+                element: <MyTuitions></MyTuitions>
+            },
+            {
+                path: 'appliedTutors',
+                element: <AppliedTutors></AppliedTutors>
+            },
+            {
+                path: 'payments',
+                element: <Payments></Payments>
+            },
+            {
+                path: 'postNewTuition',
+                element: <PostNewTuition></PostNewTuition>
+            },
+            {
+                path: 'profileSettings',
+                element: <ProfileSettings></ProfileSettings>
+            },
+            //tutor page
+            {
+                path: "myApplications",
+                element: <MyApplications></MyApplications>
+            },
+            {
+                path: "tutorOngoingTuitions",
+                element: <TutorOngoingTuitions></TutorOngoingTuitions>
+            },
+            {
+                path: "revenueHistory",
+                element: <RevenueHistory></RevenueHistory>
+            },
+            //Admin Page
+            {
+                path: "userManagement",
+                element: <UserManagement></UserManagement>
+            },
+            {
+                path: "tuitionManagement",
+                element: <TuitionManagement></TuitionManagement>
+            },
+            {
+                path: "reportsAndAnalytics",
+                element: <ReportsAndAnalytics></ReportsAndAnalytics>
+            }
         ]
     }
 ])
