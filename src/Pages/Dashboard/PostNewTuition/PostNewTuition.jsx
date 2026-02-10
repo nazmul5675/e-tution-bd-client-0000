@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../../Context/AuthContext";
 import useAxios from "../../../Hooks/useAxios";
+import Swal from "sweetalert2";
 
 const PostNewTuition = () => {
     const { user } = useContext(AuthContext);
@@ -30,45 +31,80 @@ const PostNewTuition = () => {
 
     const onSubmit = async (data) => {
         if (!user?.email) {
-            alert("You must be logged in to post tuition.");
+            Swal.fire({
+                icon: "warning",
+                title: "Login required",
+                text: "Please login to post a tuition.",
+                confirmButtonColor: "#16a34a",
+            });
             return;
         }
 
+        const payload = {
+            subject: data.subject.trim(),
+            classLevel: data.classLevel.trim(),
+            location: data.location.trim(),
+            schedule: data.schedule.trim(),
+            daysPerWeek: Number(data.daysPerWeek || 0),
+            budget: Number(data.budget || 0),
+            preferredTutorGender: data.preferredTutorGender || "Any",
+            note: data.note || "",
+            studentName: user?.displayName || "",
+            studentEmail: user?.email,
+            studentPhoto: user?.photoURL || "",
+        };
+
+        // ✅ Confirm before posting
+        const result = await Swal.fire({
+            title: "Post this tuition?",
+            text: "It will be saved as Pending until admin approves.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes, post it",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#16a34a", // green
+            cancelButtonColor: "#ef4444",  // red
+        });
+
+        if (!result.isConfirmed) return;
+
         setSubmitting(true);
         try {
-            const payload = {
-                subject: data.subject.trim(),
-                classLevel: data.classLevel.trim(),
-                location: data.location.trim(),
-                schedule: data.schedule.trim(),
-                daysPerWeek: Number(data.daysPerWeek || 0),
-                budget: Number(data.budget || 0),
-                preferredTutorGender: data.preferredTutorGender || "Any",
-                note: data.note || "",
-
-                // student info 
-                studentName: user?.displayName || "",
-                studentEmail: user?.email,
-                studentPhoto: user?.photoURL || "",
-                // status "pending" in backend
-            };
-
             const res = await axiosSecure.post("/tuitions", payload);
 
             if (res?.data?.insertedId) {
-                alert("Tuition posted! Status: Pending (Admin approval needed).");
                 reset();
+
+                // ✅ Success toast
+                Swal.fire({
+                    icon: "success",
+                    title: "Posted!",
+                    text: "Your tuition is now Pending for admin approval.",
+                    confirmButtonColor: "#16a34a",
+                });
+
                 navigate("/dashboard/myTuitions");
             } else {
-                alert("Posted, but server didn't return insertedId.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed",
+                    text: "Posted, but server didn't return insertedId.",
+                    confirmButtonColor: "#ef4444",
+                });
             }
         } catch (err) {
             console.error(err);
-            alert(err?.response?.data?.message || "Failed to post tuition.");
+            Swal.fire({
+                icon: "error",
+                title: "Failed to post",
+                text: err?.response?.data?.message || "Something went wrong.",
+                confirmButtonColor: "#ef4444",
+            });
         } finally {
             setSubmitting(false);
         }
     };
+
 
     return (
         <div className="p-4 lg:p-8">

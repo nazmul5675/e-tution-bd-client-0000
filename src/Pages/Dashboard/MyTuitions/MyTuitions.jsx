@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Context/AuthContext";
 import useAxios from "../../../Hooks/useAxios";
+import Swal from "sweetalert2";
 
 const statusBadge = (status) => {
     const s = (status || "").toLowerCase();
@@ -117,21 +118,44 @@ const MyTuitions = () => {
 
     const onDelete = async (id) => {
         if (!id) return;
-        const ok = confirm("Are you sure you want to delete this tuition post?");
-        if (!ok) return;
+
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "This tuition post will be permanently deleted!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#ef4444", // red
+            cancelButtonColor: "#6b7280",  // gray
+        });
+
+        if (!result.isConfirmed) return;
 
         setDeletingId(id);
         try {
             await axiosSecure.delete(`/tuitions/${id}`);
-            alert("Tuition deleted!");
             setTuitions((prev) => prev.filter((t) => t._id !== id));
+
+            Swal.fire({
+                title: "Deleted!",
+                text: "Your tuition post has been deleted.",
+                icon: "success",
+                confirmButtonColor: "#16a34a",
+            });
         } catch (err) {
             console.error(err);
-            alert(err?.response?.data?.message || "Failed to delete tuition.");
+            Swal.fire({
+                title: "Failed!",
+                text: err?.response?.data?.message || "Failed to delete tuition.",
+                icon: "error",
+                confirmButtonColor: "#ef4444",
+            });
         } finally {
             setDeletingId(null);
         }
     };
+
 
     if (!user?.email) {
         return (
