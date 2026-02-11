@@ -35,7 +35,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Homepage">
-                                        {/* Home icon */}
+
                                         <FaHome />
                                         <span className="is-drawer-close:hidden">Homepage</span>
                                     </NavLink>
@@ -45,7 +45,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="My Tuitions">
-                                        {/* Home icon */}
+
                                         <FaClipboardList />
                                         <span className="is-drawer-close:hidden">My Tuitions</span>
                                     </NavLink>
@@ -55,7 +55,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Applied Tutors">
-                                        {/* Home icon */}
+
                                         <FaUserCheck />
                                         <span className="is-drawer-close:hidden">Applied Tutors</span>
                                     </NavLink>
@@ -65,7 +65,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Payments">
-                                        {/* Home icon */}
+
                                         <FaMoneyCheckAlt />
                                         <span className="is-drawer-close:hidden">Payments</span>
                                     </NavLink>
@@ -75,21 +75,12 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Post New Tuition">
-                                        {/* Home icon */}
+
                                         <MdPostAdd />
                                         <span className="is-drawer-close:hidden">Post New Tuition</span>
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <NavLink to="/dashboard/profileSettings" end className={({ isActive }) =>
-                                        `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
-                                        }`
-                                    } data-tip="Profile Settings">
-                                        {/* Home icon */}
-                                        <FaUserCog />
-                                        <span className="is-drawer-close:hidden">Profile Settings</span>
-                                    </NavLink>
-                                </li>
+
 
 
                                 {/* tutor part start  */}
@@ -98,7 +89,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="My Applications">
-                                        {/* Home icon */}
+
                                         <MdAssignment />
                                         <span className="is-drawer-close:hidden">My Applications</span>
                                     </NavLink>
@@ -108,7 +99,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Tutor Ongoing Tuitions">
-                                        {/* Home icon */}
+
                                         <FaTasks />
                                         <span className="is-drawer-close:hidden">Tutor Ongoing Tuitions</span>
                                     </NavLink>
@@ -118,7 +109,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Revenue History">
-                                        {/* Home icon */}
+
                                         <FaChartLine />
                                         <span className="is-drawer-close:hidden">Revenue History</span>
                                     </NavLink>
@@ -129,7 +120,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="User Management">
-                                        {/* Home icon */}
+
                                         <FaUsersCog />
                                         <span className="is-drawer-close:hidden">User Management</span>
                                     </NavLink>
@@ -139,7 +130,7 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Tuition Management">
-                                        {/* Home icon */}
+
                                         <FaClipboardCheck />
                                         <span className="is-drawer-close:hidden">Tuition Management</span>
                                     </NavLink>
@@ -149,9 +140,20 @@ const DashboardLayout = () => {
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Reports & Analytics">
-                                        {/* Home icon */}
+
                                         <MdAnalytics />
                                         <span className="is-drawer-close:hidden">Reports & Analytics</span>
+                                    </NavLink>
+                                </li>
+                                {/* Profile setting for all */}
+                                <li>
+                                    <NavLink to="/dashboard/profileSettings" end className={({ isActive }) =>
+                                        `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
+                                        }`
+                                    } data-tip="Profile Settings">
+
+                                        <FaUserCog />
+                                        <span className="is-drawer-close:hidden">Profile Settings</span>
                                     </NavLink>
                                 </li>
 
