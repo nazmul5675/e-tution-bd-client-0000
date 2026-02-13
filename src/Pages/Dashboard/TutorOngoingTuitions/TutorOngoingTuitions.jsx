@@ -152,6 +152,7 @@ const TutorOngoingTuitions = () => {
                                                     icon: "info",
                                                     title: "Contact",
                                                     text: `Email: ${a.studentEmail || "N/A"}`,
+
                                                 })
                                             }
                                         >

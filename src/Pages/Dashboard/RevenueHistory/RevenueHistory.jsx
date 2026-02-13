@@ -187,9 +187,7 @@ const RevenueHistory = () => {
                                     ))}
                                 </tbody>
                             </table>
-                            <p className="text-xs opacity-60 mt-3">
-                                * Amount is shown from Stripe’s stored value (smallest currency unit).
-                            </p>
+
                         </div>
                     )}
                 </div>
