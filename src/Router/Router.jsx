@@ -21,6 +21,7 @@ import RevenueHistory from "../Pages/Dashboard/RevenueHistory/RevenueHistory";
 import UserManagement from "../Pages/Dashboard/UserManagement/UserManagement";
 import TuitionManagement from "../Pages/Dashboard/TuitionManagement/TuitionManagement";
 import ReportsAndAnalytics from "../Pages/Dashboard/ReportsAndAnalytics/ReportsAndAnalytics";
+import TuitionDetails from "../Pages/Tuitions/TuitionDetails";
 
 
 export const router = createBrowserRouter([
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
             {
                 path: "tuitions",
                 element: <Tuitions></Tuitions>
+            },
+            {
+                path: "tuitions/:id",
+                element: <TuitionDetails />
             },
             {
                 path: "tutors",
@@ -70,11 +75,11 @@ export const router = createBrowserRouter([
             },
             // student page 
             {
-                path: 'myTuitions',
+                path: 'my-tuitions',
                 element: <MyTuitions></MyTuitions>
             },
             {
-                path: 'appliedTutors',
+                path: 'applied-tutors',
                 element: <AppliedTutors></AppliedTutors>
             },
             {
@@ -82,37 +87,37 @@ export const router = createBrowserRouter([
                 element: <Payments></Payments>
             },
             {
-                path: 'postNewTuition',
+                path: 'post-tuition',
                 element: <PostNewTuition></PostNewTuition>
             },
             {
-                path: 'profileSettings',
+                path: 'profile-settings',
                 element: <ProfileSettings></ProfileSettings>
             },
             //tutor page
             {
-                path: "myApplications",
+                path: "my-applications",
                 element: <MyApplications></MyApplications>
             },
             {
-                path: "tutorOngoingTuitions",
+                path: "tutor-ongoing-tuitions",
                 element: <TutorOngoingTuitions></TutorOngoingTuitions>
             },
             {
-                path: "revenueHistory",
+                path: "revenue-history",
                 element: <RevenueHistory></RevenueHistory>
             },
             //Admin Page
             {
-                path: "userManagement",
+                path: "user-management",
                 element: <UserManagement></UserManagement>
             },
             {
-                path: "tuitionManagement",
+                path: "tuition-management",
                 element: <TuitionManagement></TuitionManagement>
             },
             {
-                path: "reportsAndAnalytics",
+                path: "reports-analytics",
                 element: <ReportsAndAnalytics></ReportsAndAnalytics>
             }
         ]

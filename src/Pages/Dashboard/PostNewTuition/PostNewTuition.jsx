@@ -54,7 +54,7 @@ const PostNewTuition = () => {
             studentPhoto: user?.photoURL || "",
         };
 
-        // ✅ Confirm before posting
+        //  Confirm before posting
         const result = await Swal.fire({
             title: "Post this tuition?",
             text: "It will be saved as Pending until admin approves.",
@@ -75,7 +75,7 @@ const PostNewTuition = () => {
             if (res?.data?.insertedId) {
                 reset();
 
-                // ✅ Success toast
+
                 Swal.fire({
                     icon: "success",
                     title: "Posted!",
@@ -83,7 +83,7 @@ const PostNewTuition = () => {
                     confirmButtonColor: "#16a34a",
                 });
 
-                navigate("/dashboard/myTuitions");
+                navigate("/dashboard/my-tuitions");
             } else {
                 Swal.fire({
                     icon: "error",

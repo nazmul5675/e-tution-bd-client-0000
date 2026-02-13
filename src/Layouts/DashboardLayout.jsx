@@ -41,7 +41,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/myTuitions" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/my-tuitions" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="My Tuitions">
@@ -51,7 +51,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/appliedTutors" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/applied-tutors" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Applied Tutors">
@@ -71,7 +71,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/postNewTuition" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/post-tuition" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Post New Tuition">
@@ -85,7 +85,7 @@ const DashboardLayout = () => {
 
                                 {/* tutor part start  */}
                                 <li>
-                                    <NavLink to="/dashboard/myApplications" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/my-applications" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="My Applications">
@@ -95,7 +95,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/tutorOngoingTuitions" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/tutor-ongoing-tuitions" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Tutor Ongoing Tuitions">
@@ -105,7 +105,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/revenueHistory" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/revenue-history" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Revenue History">
@@ -116,7 +116,7 @@ const DashboardLayout = () => {
                                 </li>
                                 {/* Admin page  */}
                                 <li>
-                                    <NavLink to="/dashboard/userManagement" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/user-management" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="User Management">
@@ -126,7 +126,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/tuitionManagement" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/tuition-management" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Tuition Management">
@@ -136,7 +136,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/reportsAndAnalytics" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/reports-analytics" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Reports & Analytics">
@@ -147,7 +147,7 @@ const DashboardLayout = () => {
                                 </li>
                                 {/* Profile setting for all */}
                                 <li>
-                                    <NavLink to="/dashboard/profileSettings" end className={({ isActive }) =>
+                                    <NavLink to="/dashboard/profile-settings" end className={({ isActive }) =>
                                         `is-drawer-close:tooltip is-drawer-close:tooltip-right ${isActive ? "bg-primary font-bold text-white" : "font-bold"
                                         }`
                                     } data-tip="Profile Settings">
