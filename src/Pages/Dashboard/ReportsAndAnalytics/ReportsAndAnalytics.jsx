@@ -2,13 +2,40 @@ import React, { useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 import useAxios from "../../../Hooks/useAxios";
 
+//  Recharts imports
+import {
+    ResponsiveContainer,
+    LineChart,
+    Line,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    BarChart,
+    Bar,
+    PieChart,
+    Pie,
+    Cell,
+} from "recharts";
+
+//  Existing helper 
 const money = (amountSmallestUnit, currency = "usd") => {
-    // Stripe gives amount_total in smallest unit (ex: cents)
     const n = Number(amountSmallestUnit || 0);
     const major = n / 100;
     return new Intl.NumberFormat(undefined, {
         style: "currency",
-        currency: currency.toUpperCase(),
+        currency: String(currency).toUpperCase(),
+    }).format(major);
+};
+
+//  helper for chart values that are already in MAJOR units (e.g. 1200.50 BDT)
+const moneyMajor = (amountMajor, currency = "usd") => {
+    const major = Number(amountMajor || 0);
+    return new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency: String(currency).toUpperCase(),
+        maximumFractionDigits: 2,
     }).format(major);
 };
 
@@ -42,7 +69,7 @@ const ReportsAndAnalytics = () => {
 
     useEffect(() => {
         fetchPayments();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     const filtered = useMemo(() => {
@@ -85,8 +112,7 @@ const ReportsAndAnalytics = () => {
         const tutors = new Set(paid.map((p) => p.tutorEmail).filter(Boolean));
         const students = new Set(paid.map((p) => p.studentEmail).filter(Boolean));
 
-        // assume same currency (your current code uses "usd")
-        const currency = (paid[0]?.currency || "usd").toUpperCase();
+        const currency = (paid[0]?.currency || payments[0]?.currency || "usd").toUpperCase();
 
         return {
             totalAmount,
@@ -97,6 +123,77 @@ const ReportsAndAnalytics = () => {
             currency,
         };
     }, [payments]);
+
+    //  chart data (based on PAID payments only)
+    const paidPayments = useMemo(() => {
+        return payments.filter((p) => (p.paymentStatus || "").toLowerCase() === "paid");
+    }, [payments]);
+
+    //  Earnings over time (group by date)
+    const earningsByDay = useMemo(() => {
+        // Map YYYY-MM-DD -> sumMajor
+        const map = new Map();
+
+        for (const p of paidPayments) {
+            const dt = p.createdAt ? new Date(p.createdAt) : null;
+            if (!dt || Number.isNaN(dt.getTime())) continue;
+
+            const dayKey = dt.toISOString().slice(0, 10); // YYYY-MM-DD
+            const major = Number(p.amount || 0) / 100; // amount is in smallest unit
+            map.set(dayKey, (map.get(dayKey) || 0) + major);
+        }
+
+        // Sort by day ASC for chart
+        return Array.from(map.entries())
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .map(([day, totalMajor]) => ({
+                day,
+                totalMajor: Number(totalMajor.toFixed(2)),
+            }));
+    }, [paidPayments]);
+
+    //  Payment status breakdown (count)
+    const statusBreakdown = useMemo(() => {
+        const map = new Map(); // status -> count
+        for (const p of payments) {
+            const st = (p.paymentStatus || "unknown").toLowerCase();
+            map.set(st, (map.get(st) || 0) + 1);
+        }
+        return Array.from(map.entries()).map(([name, value]) => ({ name, value }));
+    }, [payments]);
+
+    //  Top tutors by earnings (paid only)
+    const topTutors = useMemo(() => {
+        const map = new Map(); // tutorEmail -> totalMajor
+        for (const p of paidPayments) {
+            const email = p.tutorEmail || "unknown";
+            const major = Number(p.amount || 0) / 100;
+            map.set(email, (map.get(email) || 0) + major);
+        }
+
+        return Array.from(map.entries())
+            .map(([tutorEmail, totalMajor]) => ({
+                tutorEmail,
+                totalMajor: Number(totalMajor.toFixed(2)),
+            }))
+            .sort((a, b) => b.totalMajor - a.totalMajor)
+            .slice(0, 7); // top 7
+    }, [paidPayments]);
+
+    //  simple colors for pie slices (using daisyUI-ish palette)
+    const pieColors = ["#22c55e", "#f59e0b", "#ef4444", "#3b82f6", "#a855f7", "#14b8a6"];
+
+    //  custom tooltip for money display
+    const MoneyTooltip = ({ active, payload, label, currency }) => {
+        if (!active || !payload?.length) return null;
+        const val = payload[0]?.value ?? 0;
+        return (
+            <div className="bg-base-100 border shadow rounded p-2 text-sm">
+                <div className="font-semibold">{label}</div>
+                <div>{moneyMajor(val, currency)}</div>
+            </div>
+        );
+    };
 
     if (loading) {
         return (
@@ -156,6 +253,112 @@ const ReportsAndAnalytics = () => {
                         <div className="stat-title">Unique Paying Students</div>
                         <div className="stat-value">{summary.uniqueStudents}</div>
                         <div className="stat-desc">Based on studentEmail</div>
+                    </div>
+                </div>
+            </div>
+
+            {/*  Charts section */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-6">
+                {/* Earnings over time */}
+                <div className="card bg-base-100 shadow border xl:col-span-2">
+                    <div className="card-body">
+                        <h2 className="card-title">Earnings Over Time</h2>
+                        <p className="text-sm opacity-70">
+                            Sum of <span className="font-semibold">paid</span> transactions by day.
+                        </p>
+
+                        {earningsByDay.length < 2 ? (
+                            <div className="alert mt-4">
+                                <span>Not enough paid data to draw a trend chart.</span>
+                            </div>
+                        ) : (
+                            <div className="w-full h-[280px] mt-3">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart data={earningsByDay}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="day" tick={{ fontSize: 12 }} />
+                                        <YAxis tick={{ fontSize: 12 }} />
+                                        <Tooltip content={<MoneyTooltip currency={summary.currency} />} />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="totalMajor" name="Earnings" strokeWidth={2} dot={false} />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Payment status breakdown */}
+                <div className="card bg-base-100 shadow border">
+                    <div className="card-body">
+                        <h2 className="card-title">Payment Status</h2>
+                        <p className="text-sm opacity-70">Distribution of all transactions.</p>
+
+                        {statusBreakdown.length === 0 ? (
+                            <div className="alert mt-4">
+                                <span>No payments found.</span>
+                            </div>
+                        ) : (
+                            <div className="w-full h-[280px] mt-3">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Tooltip />
+                                        <Legend />
+                                        <Pie
+                                            data={statusBreakdown}
+                                            dataKey="value"
+                                            nameKey="name"
+                                            outerRadius={95}
+                                            label
+                                        >
+                                            {statusBreakdown.map((_, i) => (
+                                                <Cell key={i} fill={pieColors[i % pieColors.length]} />
+                                            ))}
+                                        </Pie>
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Top tutors */}
+                <div className="card bg-base-100 shadow border xl:col-span-3">
+                    <div className="card-body">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <h2 className="card-title">Top Tutors by Earnings</h2>
+                                <p className="text-sm opacity-70">Paid totals (top 7).</p>
+                            </div>
+                            <div className="text-sm opacity-70">
+                                Currency: <span className="font-semibold">{summary.currency}</span>
+                            </div>
+                        </div>
+
+                        {topTutors.length === 0 ? (
+                            <div className="alert mt-4">
+                                <span>No paid transactions yet.</span>
+                            </div>
+                        ) : (
+                            <div className="w-full h-[260px] mt-3">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={topTutors}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis
+                                            dataKey="tutorEmail"
+                                            tick={{ fontSize: 12 }}
+                                            interval={0}
+                                            angle={-12}
+                                            height={60}
+                                        />
+                                        <YAxis tick={{ fontSize: 12 }} />
+                                        <Tooltip content={<MoneyTooltip currency={summary.currency} />} />
+                                        <Legend />
+                                        <Bar dataKey="totalMajor" name="Earnings" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
