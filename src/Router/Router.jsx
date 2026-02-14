@@ -23,6 +23,9 @@ import TuitionManagement from "../Pages/Dashboard/TuitionManagement/TuitionManag
 import ReportsAndAnalytics from "../Pages/Dashboard/ReportsAndAnalytics/ReportsAndAnalytics";
 import TuitionDetails from "../Pages/Tuitions/TuitionDetails";
 import TutorDetails from "../Pages/Tutor/TutorDetails";
+import PrivateRoute from "./PrivateRoute";
+import StudentRoute from "./StudentRoute";
+import TutorRoute from "./TutorRoute";
 
 
 export const router = createBrowserRouter([
@@ -81,49 +84,81 @@ export const router = createBrowserRouter([
             // student page 
             {
                 path: 'my-tuitions',
-                element: <MyTuitions></MyTuitions>
+                element: <PrivateRoute>
+                    <StudentRoute>
+                        <MyTuitions></MyTuitions>
+                    </StudentRoute>
+                </PrivateRoute>
             },
             {
                 path: 'applied-tutors',
-                element: <AppliedTutors></AppliedTutors>
+                element: <PrivateRoute>
+                    <StudentRoute>
+                        <AppliedTutors></AppliedTutors>
+                    </StudentRoute>
+                </PrivateRoute>
             },
             {
                 path: 'payments',
-                element: <Payments></Payments>
+                element: <PrivateRoute>
+                    <StudentRoute>
+                        <Payments></Payments>
+                    </StudentRoute>
+                </PrivateRoute>
             },
             {
                 path: 'post-tuition',
-                element: <PostNewTuition></PostNewTuition>
+                element: <PrivateRoute>
+                    <StudentRoute>
+                        <PostNewTuition></PostNewTuition>
+                    </StudentRoute>
+                </PrivateRoute>
             },
             {
                 path: 'profile-settings',
-                element: <ProfileSettings></ProfileSettings>
+                element: <PrivateRoute><ProfileSettings></ProfileSettings></PrivateRoute>
             },
             //tutor page
             {
                 path: "my-applications",
-                element: <MyApplications></MyApplications>
+                element: <PrivateRoute>
+                    <TutorRoute>
+                        <MyApplications></MyApplications>
+                    </TutorRoute>
+
+                </PrivateRoute>
             },
             {
                 path: "tutor-ongoing-tuitions",
-                element: <TutorOngoingTuitions></TutorOngoingTuitions>
+                element: <PrivateRoute>
+                    <TutorRoute>
+                        <TutorOngoingTuitions></TutorOngoingTuitions>
+                    </TutorRoute>
+                </PrivateRoute>
             },
             {
                 path: "revenue-history",
-                element: <RevenueHistory></RevenueHistory>
+                element: <PrivateRoute>
+                    <TutorRoute>
+                        <RevenueHistory></RevenueHistory>
+                    </TutorRoute>
+                </PrivateRoute>
             },
             //Admin Page
             {
                 path: "user-management",
-                element: <UserManagement></UserManagement>
+                element: <PrivateRoute>
+
+                    <UserManagement></UserManagement>
+                </PrivateRoute>
             },
             {
                 path: "tuition-management",
-                element: <TuitionManagement></TuitionManagement>
+                element: <PrivateRoute><TuitionManagement></TuitionManagement></PrivateRoute>
             },
             {
                 path: "reports-analytics",
-                element: <ReportsAndAnalytics></ReportsAndAnalytics>
+                element: <PrivateRoute><ReportsAndAnalytics></ReportsAndAnalytics></PrivateRoute>
             }
         ]
     }
