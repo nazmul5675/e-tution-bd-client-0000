@@ -22,6 +22,7 @@ import UserManagement from "../Pages/Dashboard/UserManagement/UserManagement";
 import TuitionManagement from "../Pages/Dashboard/TuitionManagement/TuitionManagement";
 import ReportsAndAnalytics from "../Pages/Dashboard/ReportsAndAnalytics/ReportsAndAnalytics";
 import TuitionDetails from "../Pages/Tuitions/TuitionDetails";
+import TutorDetails from "../Pages/Tutor/TutorDetails";
 
 
 export const router = createBrowserRouter([
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
             {
                 path: "tutors",
                 element: <Tutor></Tutor>
+            },
+            {
+                path: "tutors/:id",
+                element: <TutorDetails />,
             },
             {
                 path: "about",
