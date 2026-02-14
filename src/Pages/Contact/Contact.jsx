@@ -1,15 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import useAxios from "../../Hooks/useAxios";
+
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const Contact = () => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const axiosSecure = useAxios();
+    const [sending, setSending] = useState(false);
 
-    const onSubmit = (data) => {
-        console.log("Contact Form Data:", data);
-        alert("Message sent successfully!");
-        reset(); // Clear the form after submission
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
+
+    //  submit to database
+    const onSubmit = async (data) => {
+        setSending(true);
+        try {
+            //  send to backend
+            const res = await axiosSecure.post("/contacts", {
+                name: data.name,
+                email: data.email,
+                message: data.message,
+            });
+
+            Swal.fire({
+                icon: "success",
+                title: "Message Sent!",
+                text: "Your message has been saved successfully.",
+                confirmButtonColor: "#16a34a",
+            });
+
+            reset();
+        } catch (err) {
+            console.error(err);
+            Swal.fire({
+                icon: "error",
+                title: "Failed",
+                text: err?.response?.data?.message || "Could not send message",
+                confirmButtonColor: "#ef4444",
+            });
+        } finally {
+            setSending(false);
+        }
     };
 
     return (
@@ -42,7 +79,7 @@ const Contact = () => {
                             className="input input-bordered w-full"
                             {...register("email", {
                                 required: "Email is required",
-                                pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email address" }
+                                pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email address" },
                             })}
                         />
                         {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
@@ -53,11 +90,15 @@ const Contact = () => {
                             className="textarea textarea-bordered w-full"
                             rows={5}
                             {...register("message", { required: "Message is required" })}
-                        ></textarea>
+                        />
                         {errors.message && <p className="text-red-500 text-sm">{errors.message.message}</p>}
 
-                        <button type="submit" className="btn btn-primary mt-4 w-full text-white">
-                            Send Message
+                        <button
+                            type="submit"
+                            className="btn btn-primary mt-4 w-full text-white"
+                            disabled={sending}
+                        >
+                            {sending ? "Sending..." : "Send Message"}
                         </button>
                     </form>
                 </div>

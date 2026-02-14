@@ -83,7 +83,10 @@ const UserManagement = () => {
             );
 
             setEditing(null);
-            Swal.fire({ icon: "success", title: "Updated", text: "User updated successfully." });
+            Swal.fire({
+                icon: "success", title: "Updated", text: "User updated successfully.", confirmButtonText: "OK",
+                confirmButtonColor: "#7cb138"
+            });
         } catch (e) {
             console.error(e);
             Swal.fire({
@@ -152,7 +155,7 @@ const UserManagement = () => {
                     </p>
                 </div>
 
-                <button className="btn btn-outline" onClick={fetchUsers}>
+                <button className="btn btn-primary" onClick={fetchUsers}>
                     Refresh
                 </button>
             </div>

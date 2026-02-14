@@ -205,7 +205,7 @@ const ProfileSettings = () => {
                 {/*  Saved vs Preview */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                     {/* Saved */}
-                    <div className="card bg-base-100 shadow border">
+                    <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                         <div className="card-body">
                             <div className="flex items-center justify-between">
                                 <h3 className="font-bold text-lg">Saved Profile</h3>
@@ -241,7 +241,7 @@ const ProfileSettings = () => {
                     </div>
 
                     {/* Preview */}
-                    <div className="card bg-base-100 shadow border">
+                    <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                         <div className="card-body">
                             <div className="flex items-center justify-between">
                                 <h3 className="font-bold text-lg">Live Preview</h3>

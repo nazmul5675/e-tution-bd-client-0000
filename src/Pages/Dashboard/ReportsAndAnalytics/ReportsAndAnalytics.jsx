@@ -215,14 +215,14 @@ const ReportsAndAnalytics = () => {
                     </p>
                 </div>
 
-                <button className="btn btn-outline" onClick={fetchPayments}>
+                <button className="btn btn-primary" onClick={fetchPayments}>
                     Refresh
                 </button>
             </div>
 
             {/* Summary */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-                <div className="stats shadow bg-base-100 border">
+                <div className="stats bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="stat">
                         <div className="stat-title">Total Earnings</div>
                         <div className="stat-value text-primary">
@@ -232,7 +232,7 @@ const ReportsAndAnalytics = () => {
                     </div>
                 </div>
 
-                <div className="stats shadow bg-base-100 border">
+                <div className="stats bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="stat">
                         <div className="stat-title">Successful Payments</div>
                         <div className="stat-value">{summary.totalPaidCount}</div>
@@ -240,7 +240,7 @@ const ReportsAndAnalytics = () => {
                     </div>
                 </div>
 
-                <div className="stats shadow bg-base-100 border">
+                <div className="stats bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="stat">
                         <div className="stat-title">Unique Tutors Paid</div>
                         <div className="stat-value">{summary.uniqueTutors}</div>
@@ -248,7 +248,7 @@ const ReportsAndAnalytics = () => {
                     </div>
                 </div>
 
-                <div className="stats shadow bg-base-100 border">
+                <div className="stats bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="stat">
                         <div className="stat-title">Unique Paying Students</div>
                         <div className="stat-value">{summary.uniqueStudents}</div>
@@ -260,7 +260,7 @@ const ReportsAndAnalytics = () => {
             {/*  Charts section */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-6">
                 {/* Earnings over time */}
-                <div className="card bg-base-100 shadow border xl:col-span-2">
+                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative xl:col-span-2">
                     <div className="card-body">
                         <h2 className="card-title">Earnings Over Time</h2>
                         <p className="text-sm opacity-70">
@@ -289,7 +289,7 @@ const ReportsAndAnalytics = () => {
                 </div>
 
                 {/* Payment status breakdown */}
-                <div className="card bg-base-100 shadow border">
+                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="card-body">
                         <h2 className="card-title">Payment Status</h2>
                         <p className="text-sm opacity-70">Distribution of all transactions.</p>
@@ -323,7 +323,7 @@ const ReportsAndAnalytics = () => {
                 </div>
 
                 {/* Top tutors */}
-                <div className="card bg-base-100 shadow border xl:col-span-3">
+                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative xl:col-span-3">
                     <div className="card-body">
                         <div className="flex items-center justify-between flex-wrap gap-2">
                             <div>
@@ -364,7 +364,7 @@ const ReportsAndAnalytics = () => {
             </div>
 
             {/* Filters */}
-            <div className="card bg-base-100 shadow border mt-6">
+            <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-6">
                 <div className="card-body">
                     <div className="flex flex-wrap gap-3 items-center justify-between">
                         <div className="flex flex-wrap gap-3 items-center">

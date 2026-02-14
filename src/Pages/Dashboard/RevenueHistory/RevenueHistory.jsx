@@ -122,7 +122,7 @@ const RevenueHistory = () => {
 
             {/* Summary cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <div className="card bg-base-100 shadow border">
+                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="card-body">
                         <p className="text-sm opacity-70">Total Earnings</p>
                         <p className="text-2xl font-bold">
@@ -131,14 +131,14 @@ const RevenueHistory = () => {
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow border">
+                <div className="card bg-base-100 shadow bordbg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="card-body">
                         <p className="text-sm opacity-70">Transactions</p>
                         <p className="text-2xl font-bold">{stats.count}</p>
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow border">
+                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                     <div className="card-body">
                         <p className="text-sm opacity-70">Latest Payment</p>
                         <p className="text-base font-semibold">

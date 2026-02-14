@@ -168,7 +168,7 @@ const Payments = () => {
                 Approve tutor by paying expected salary via Stripe Checkout.
             </p>
 
-            <div className="card bg-base-100 shadow mt-6">
+            <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-6">
                 <div className="card-body">
                     {!appDoc ? (
                         <div className="alert">

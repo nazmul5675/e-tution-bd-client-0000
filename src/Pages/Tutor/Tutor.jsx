@@ -91,7 +91,7 @@ const Tutor = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
                     {filtered.map((t) => (
-                        <div key={t._id} className="card bg-base-100 shadow border">
+                        <div key={t._id} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
                             <div className="card-body">
                                 <div className="flex items-start gap-4">
                                     <div className="avatar">

@@ -54,9 +54,9 @@ const TutorDetails = () => {
 
     return (
         <div className="p-4 lg:p-8 max-w-4xl mx-auto">
-            <Link to="/tutors" className="btn btn-sm btn-outline">← Back</Link>
+            <Link to="/tutors" className="btn btn-sm btn-primary">← Back</Link>
 
-            <div className="card bg-base-100 shadow border mt-4">
+            <div className="bg-white/60 p-5 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-5">
                 <div className="card-body">
                     <div className="flex flex-col md:flex-row gap-6 items-start">
                         <div className="avatar">
@@ -110,6 +110,8 @@ const TutorDetails = () => {
                           <p><b>Phone:</b> ${tutor?.phone || "N/A"}</p>
                         </div>
                       `,
+                                            confirmButtonText: "OK",
+                                            confirmButtonColor: "#7cb138",
                                         })
                                     }
                                 >

@@ -143,7 +143,7 @@ const TuitionManagement = () => {
                         <option value="rejected">Rejected</option>
                     </select>
 
-                    <button className="btn btn-outline" onClick={fetchTuitions}>
+                    <button className="btn btn-primary" onClick={fetchTuitions}>
                         Refresh
                     </button>
                 </div>

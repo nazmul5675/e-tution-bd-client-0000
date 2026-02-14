@@ -107,7 +107,7 @@ const TutorOngoingTuitions = () => {
                     {filtered.map((a) => {
                         const t = a?.tuitionSnapshot || {};
                         return (
-                            <div key={a._id} className="card bg-base-100 shadow border">
+                            <div key={a._id} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-5">
                                 <div className="card-body">
                                     <div className="flex items-start justify-between gap-3">
                                         <div>

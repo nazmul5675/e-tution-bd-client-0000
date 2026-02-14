@@ -178,7 +178,7 @@ const TuitionDetails = () => {
                 </button>
             </div>
 
-            <div className="card bg-base-100 shadow mt-6 border">
+            <div className="bg-white/60 p-5 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-10">
                 <div className="card-body space-y-2 text-sm">
                     <p><span className="font-semibold">Location:</span> {tuition.location}</p>
                     <p><span className="font-semibold">Schedule:</span> {tuition.schedule}</p>
