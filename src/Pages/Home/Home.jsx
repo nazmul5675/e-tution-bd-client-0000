@@ -3,6 +3,8 @@ import ImageCarousel from '../../Components/ImageCarousel/ImageCarousel';
 import HowWeTeach from '../../Components/HowWeTeach/HowWeTeach';
 import WhyChooseUs from '../../Components/WhyChooseUs/WhyChooseUs';
 import HowThePlatformWorks from '../../Components/HowThePlatformWorks/HowThePlatformWorks';
+import LatestTuitionPosts from '../../Components/LatestTuitionPosts/LatestTuitionPosts';
+import LatestTutors from '../../Components/LatestTutors/LatestTutors';
 
 
 const Home = () => {
@@ -38,8 +40,7 @@ const Home = () => {
                 <h2 className="text-4xl sm:text-5xl font-extrabold text-center text-primary mb-20">
                     Latest Tuition Posts
                 </h2>
-                Dynamic section:
-                Latest Tuition Posts (Auto fetch from backend)
+                <LatestTuitionPosts></LatestTuitionPosts>
 
 
 
@@ -50,8 +51,7 @@ const Home = () => {
                 <h2 className="text-4xl sm:text-5xl font-extrabold text-center text-primary mb-20">
                     Latest Tutors
                 </h2>
-                Dynamic section:
-                Latest Tutors (Auto fetch from backend)
+                <LatestTutors></LatestTutors>
             </div>
 
 
