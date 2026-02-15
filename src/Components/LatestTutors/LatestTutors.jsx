@@ -73,7 +73,7 @@ const LatestTutors = () => {
 
             {/*  Empty */}
             {tutors.length === 0 ? (
-                <div className="card bg-base-100 shadow border mt-6">
+                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-6">
                     <div className="card-body">
                         <div className="alert">
                             <span>No tutors found yet.</span>
@@ -83,7 +83,7 @@ const LatestTutors = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
                     {tutors.map((t) => (
-                        <div key={t._id || t.email} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
+                        <div key={t._id || t.email} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-6">
                             <div className="card-body">
                                 <div className="flex items-center gap-3">
                                     <div className="avatar">

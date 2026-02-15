@@ -66,7 +66,7 @@ const LatestTuitionPosts = () => {
 
             {/* Empty State */}
             {tuitions.length === 0 ? (
-                <div className="bg-white/60 p-10 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
+                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-6">
                     <div className="card-body">
                         <div className="alert">
                             <span>No approved tuitions found yet.</span>
@@ -77,7 +77,7 @@ const LatestTuitionPosts = () => {
                 // Cards Grid
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
                     {tuitions.map((t) => (
-                        <div key={t._id} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
+                        <div key={t._id} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-6">
                             <div className="card-body">
                                 <div className="flex items-start justify-between gap-3">
                                     <div>
