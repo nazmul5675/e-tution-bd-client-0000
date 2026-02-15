@@ -130,6 +130,7 @@ const TuitionDetails = () => {
                     icon: "success",
                     title: "Applied!",
                     text: "Your application is submitted. Status is pending until student approves & pays.",
+                    confirmButtonColor: "#16a34a"
                 });
             }
         } catch (e2) {

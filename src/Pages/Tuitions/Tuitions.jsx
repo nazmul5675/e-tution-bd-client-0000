@@ -8,8 +8,21 @@ const Tuitions = () => {
 
     const [tuitions, setTuitions] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // existing search
     const [search, setSearch] = useState("");
 
+    // filter UI selections (not applied yet)
+    const [subjectSel, setSubjectSel] = useState("all");
+    const [classSel, setClassSel] = useState("all");
+    const [locationSel, setLocationSel] = useState("all");
+
+    // applied filters (used in actual filtering)
+    const [appliedFilters, setAppliedFilters] = useState({
+        subject: "all",
+        classLevel: "all",
+        location: "all",
+    });
 
     const [page, setPage] = useState(1);
     const perPage = 9;
@@ -34,38 +47,67 @@ const Tuitions = () => {
         load();
     }, [axiosSecure]);
 
+    // Build dropdown options from loaded data (unique values)
+    const filterOptions = useMemo(() => {
+        const uniq = (arr) => [...new Set(arr.filter(Boolean))];
+
+        return {
+            subjects: uniq((tuitions || []).map((t) => t.subject?.trim())),
+            classes: uniq((tuitions || []).map((t) => t.classLevel?.trim())),
+            locations: uniq((tuitions || []).map((t) => t.location?.trim())),
+        };
+    }, [tuitions]);
+
+    // Filtering (search + applied filters)
     const filtered = useMemo(() => {
         const q = search.trim().toLowerCase();
-        if (!q) return tuitions;
 
         return (tuitions || []).filter((t) => {
+            // applied dropdown filters (exact match)
+            if (appliedFilters.subject !== "all" && t.subject !== appliedFilters.subject) return false;
+            if (appliedFilters.classLevel !== "all" && t.classLevel !== appliedFilters.classLevel)
+                return false;
+            if (appliedFilters.location !== "all" && t.location !== appliedFilters.location) return false;
+
+            // text search (subject/location/class)
+            if (!q) return true;
+
             return (
                 (t.subject || "").toLowerCase().includes(q) ||
                 (t.location || "").toLowerCase().includes(q) ||
                 (t.classLevel || "").toLowerCase().includes(q)
             );
         });
-    }, [tuitions, search]);
-
-
-    useEffect(() => {
-        setPage(1);
-    }, [search]);
-
+    }, [tuitions, search, appliedFilters]);
 
     const totalPages = Math.ceil(filtered.length / perPage) || 1;
 
-
     const paginated = useMemo(() => {
         const start = (page - 1) * perPage;
-        const end = start + perPage;
-        return filtered.slice(start, end);
+        return filtered.slice(start, start + perPage);
     }, [filtered, page]);
-
 
     const goToPage = (p) => {
         const next = Math.min(Math.max(p, 1), totalPages);
         setPage(next);
+    };
+
+    const handleApply = () => {
+        setAppliedFilters({
+            subject: subjectSel,
+            classLevel: classSel,
+            location: locationSel,
+        });
+        setPage(1);
+    };
+
+    const handleReset = () => {
+        setSubjectSel("all");
+        setClassSel("all");
+        setLocationSel("all");
+        setAppliedFilters({ subject: "all", classLevel: "all", location: "all" });
+        setSearch("");
+        setPage(1);
     };
 
     if (loading) {
@@ -83,17 +125,82 @@ const Tuitions = () => {
             <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div>
                     <h1 className="text-2xl font-bold">All Approved Tuitions</h1>
-
                 </div>
 
                 <input
                     className="input input-bordered w-full max-w-xs"
                     placeholder="Search by subject / location / class..."
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setPage(1);
+                    }}
                 />
             </div>
 
+
+            <div className="mt-5 flex flex-wrap gap-3 items-end">
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Subject</span>
+                    </label>
+                    <select
+                        className="select select-bordered"
+                        value={subjectSel}
+                        onChange={(e) => setSubjectSel(e.target.value)}
+                    >
+                        <option value="all">All Subjects</option>
+                        {filterOptions.subjects.map((s) => (
+                            <option key={s} value={s}>
+                                {s}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Class</span>
+                    </label>
+                    <select
+                        className="select select-bordered"
+                        value={classSel}
+                        onChange={(e) => setClassSel(e.target.value)}
+                    >
+                        <option value="all">All Classes</option>
+                        {filterOptions.classes.map((c) => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="form-control w-full max-w-xs">
+                    <label className="label">
+                        <span className="label-text">Location</span>
+                    </label>
+                    <select
+                        className="select select-bordered"
+                        value={locationSel}
+                        onChange={(e) => setLocationSel(e.target.value)}
+                    >
+                        <option value="all">All Locations</option>
+                        {filterOptions.locations.map((l) => (
+                            <option key={l} value={l}>
+                                {l}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <button className="btn btn-primary" onClick={handleApply}>
+                    Apply
+                </button>
+                <button className="btn btn-ghost" onClick={handleReset}>
+                    Reset
+                </button>
+            </div>
 
             <p className="text-sm opacity-70 mt-4">
                 Showing <span className="font-semibold">{paginated.length}</span> of{" "}
@@ -149,18 +256,12 @@ const Tuitions = () => {
                         ))}
                     </div>
 
-
                     {totalPages > 1 && (
                         <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
-                            <button
-                                className="btn btn-sm"
-                                onClick={() => goToPage(page - 1)}
-                                disabled={page === 1}
-                            >
+                            <button className="btn btn-sm" onClick={() => goToPage(page - 1)} disabled={page === 1}>
                                 Prev
                             </button>
 
-                            {/* show page numbers */}
                             {Array.from({ length: totalPages }).map((_, idx) => {
                                 const p = idx + 1;
                                 return (

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "react-router"; // (If you use react-router-dom, change to: react-router-dom)
+import { useSearchParams } from "react-router";
 import Swal from "sweetalert2";
 import useAxios from "../../../Hooks/useAxios";
 import { AuthContext } from "../../../Context/AuthContext";
 
-/** ✅ Helper: Stripe amount is stored in smallest unit (paisa/cents) */
+
 const money = (amountSmallestUnit, currency = "bdt") => {
     const n = Number(amountSmallestUnit || 0);
     const major = n / 100;
@@ -18,37 +18,36 @@ const Payments = () => {
     const { user } = useContext(AuthContext);
     const axiosSecure = useAxios();
 
-    /** ✅ UPDATED: need setter to clean URL after confirm */
+
     const [params, setParams] = useSearchParams();
 
-    // existing params (from your success_url / cancel_url)
+
     const applicationIdFromUrl = params.get("applicationId");
     const success = params.get("success");
     const canceled = params.get("canceled");
     const sessionId = params.get("session_id");
 
-    /** ✅ NEW: history + pending apps state */
+
     const [payments, setPayments] = useState([]);
     const [pendingApps, setPendingApps] = useState([]);
 
-    /** ✅ NEW: selected application to show details + pay */
     const [selectedAppId, setSelectedAppId] = useState(applicationIdFromUrl || "");
     const [selectedApp, setSelectedApp] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const [paying, setPaying] = useState(false);
 
-    /** ✅ NEW: Prevent confirm running twice (React StrictMode / refresh) */
+
     const confirmOnceRef = useRef(false);
 
-    /** ✅ NEW: fetch payment history */
+
     const fetchPayments = async () => {
         if (!user?.email) return;
         const res = await axiosSecure.get(`/payments?studentEmail=${encodeURIComponent(user.email)}`);
         setPayments(Array.isArray(res.data) ? res.data : []);
     };
 
-    /** ✅ NEW: fetch pending applications (not paid yet) */
+    /**  fetch pending applications (not paid yet) */
     const fetchPendingApps = async () => {
         if (!user?.email) return;
         // server supports status query on /applications
@@ -58,7 +57,7 @@ const Payments = () => {
         setPendingApps(Array.isArray(res.data) ? res.data : []);
     };
 
-    /** ✅ NEW: load selected application details */
+    /** load selected application details */
     const loadSelectedApplication = async (appId) => {
         if (!appId) {
             setSelectedApp(null);
@@ -68,7 +67,7 @@ const Payments = () => {
         setSelectedApp(res.data);
     };
 
-    /** ✅ INITIAL LOAD: history + pending + (optional) selected application */
+    /**  history + pending + (optional) selected application */
     useEffect(() => {
         const init = async () => {
             if (!user?.email) {
@@ -99,10 +98,10 @@ const Payments = () => {
         };
 
         init();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [user?.email]);
 
-    /** ✅ UPDATED: Handle Stripe redirect */
+
     useEffect(() => {
         const afterRedirect = async () => {
             // show cancel message
@@ -119,14 +118,14 @@ const Payments = () => {
             // Only confirm if we have all needed values
             if (!success || !sessionId || !applicationIdFromUrl) return;
 
-            // ✅ Prevent running confirm twice
+
             if (confirmOnceRef.current) return;
             confirmOnceRef.current = true;
 
             try {
                 setPaying(true);
 
-                // ✅ Confirm payment on backend (replaces webhook)
+
                 await axiosSecure.post("/payments/confirm", {
                     session_id: sessionId,
                     applicationId: applicationIdFromUrl,
@@ -136,14 +135,14 @@ const Payments = () => {
                     icon: "success",
                     title: "Payment Confirmed!",
                     text: "Application approved and transaction saved.",
-                    confirmButtonColor: "#16a34a", // ✅ green OK
+                    confirmButtonColor: "#16a34a", //  green OK
                 });
 
-                // ✅ Refresh UI data (history, pending, selected app)
+                // 
                 await Promise.all([fetchPayments(), fetchPendingApps()]);
                 await loadSelectedApplication(applicationIdFromUrl);
 
-                // ✅ IMPORTANT: clean URL params so refresh doesn't reconfirm
+                // clean URL params so refresh doesn't reconfirm
                 const next = new URLSearchParams(params);
                 next.delete("success");
                 next.delete("session_id");
@@ -166,7 +165,7 @@ const Payments = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [success, canceled, sessionId, applicationIdFromUrl]);
 
-    /** ✅ UPDATED: handlePay now takes appId so you can pay from pending list */
+    /**  handlePay now takes appId so you can pay from pending list */
     const handlePay = async (appId) => {
         if (!user?.email) {
             Swal.fire({ icon: "warning", title: "Login required", confirmButtonColor: "#f59e0b" });
@@ -201,10 +200,10 @@ const Payments = () => {
         }
     };
 
-    /** ✅ NEW: quick stats */
+
     const historyCount = payments.length;
 
-    /** ✅ UI states */
+
     if (!user?.email) {
         return (
             <div className="p-4 lg:p-8">
@@ -251,7 +250,7 @@ const Payments = () => {
                 </button>
             </div>
 
-            {/* ✅ NEW: Pending Applications Section (Pay from this page) */}
+            {/*  Pending Applications Section (Pay from this page) */}
             <div className="bg-white/60 p-4 rounded-3xl shadow-2xl mt-6">
                 <div className="card-body">
                     <div className="flex items-center justify-between flex-wrap gap-2">
