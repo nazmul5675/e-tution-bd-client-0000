@@ -10,11 +10,14 @@ const Tuitions = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
 
+
+    const [page, setPage] = useState(1);
+    const perPage = 9;
+
     useEffect(() => {
         const load = async () => {
             setLoading(true);
             try {
-                // public approved jobs
                 const res = await axiosSecure.get("/tuitions?status=approved");
                 setTuitions(Array.isArray(res.data) ? res.data : []);
             } catch (e) {
@@ -44,6 +47,27 @@ const Tuitions = () => {
         });
     }, [tuitions, search]);
 
+
+    useEffect(() => {
+        setPage(1);
+    }, [search]);
+
+
+    const totalPages = Math.ceil(filtered.length / perPage) || 1;
+
+
+    const paginated = useMemo(() => {
+        const start = (page - 1) * perPage;
+        const end = start + perPage;
+        return filtered.slice(start, end);
+    }, [filtered, page]);
+
+
+    const goToPage = (p) => {
+        const next = Math.min(Math.max(p, 1), totalPages);
+        setPage(next);
+    };
+
     if (loading) {
         return (
             <div className="p-4 lg:p-8">
@@ -55,13 +79,11 @@ const Tuitions = () => {
     }
 
     return (
-        <div className="p-4 lg:p-8">
+        <div className="p-4 lg:p-8 max-w-7xl mx-auto px-4 py-16">
             <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div>
                     <h1 className="text-2xl font-bold">All Approved Tuitions</h1>
-                    <p className="opacity-70 mt-1">
-                        Browse approved tuition posts. Tutors can apply from details page.
-                    </p>
+
                 </div>
 
                 <input
@@ -72,6 +94,12 @@ const Tuitions = () => {
                 />
             </div>
 
+
+            <p className="text-sm opacity-70 mt-4">
+                Showing <span className="font-semibold">{paginated.length}</span> of{" "}
+                <span className="font-semibold">{filtered.length}</span> results
+            </p>
+
             {filtered.length === 0 ? (
                 <div className="card bg-base-100 shadow mt-6">
                     <div className="card-body">
@@ -81,35 +109,81 @@ const Tuitions = () => {
                     </div>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
-                    {filtered.map((t) => (
-                        <div key={t._id} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
-                            <div className="card-body">
-                                <div className="flex items-start justify-between gap-3">
-                                    <div>
-                                        <h2 className="card-title">{t.subject}</h2>
-                                        <p className="text-sm opacity-70">Class: {t.classLevel}</p>
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
+                        {paginated.map((t) => (
+                            <div
+                                key={t._id}
+                                className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative"
+                            >
+                                <div className="card-body">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div>
+                                            <h2 className="card-title">{t.subject}</h2>
+                                            <p className="text-sm opacity-70">Class: {t.classLevel}</p>
+                                        </div>
+                                        <span className="badge badge-success">Approved</span>
                                     </div>
-                                    <span className="badge badge-success">Approved</span>
-                                </div>
 
-                                <div className="divider my-2"></div>
+                                    <div className="divider my-2"></div>
 
-                                <div className="space-y-2 text-sm">
-                                    <p><span className="font-semibold">Location:</span> {t.location}</p>
-                                    <p><span className="font-semibold">Schedule:</span> {t.schedule}</p>
-                                    <p><span className="font-semibold">Budget:</span> {t.budget} BDT</p>
-                                </div>
+                                    <div className="space-y-2 text-sm">
+                                        <p>
+                                            <span className="font-semibold">Location:</span> {t.location}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">Schedule:</span> {t.schedule}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">Budget:</span> {t.budget} BDT
+                                        </p>
+                                    </div>
 
-                                <div className="mt-4">
-                                    <Link className="btn btn-sm btn-primary" to={`/tuitions/${t._id}`}>
-                                        View Details
-                                    </Link>
+                                    <div className="mt-4">
+                                        <Link className="btn btn-sm btn-primary" to={`/tuitions/${t._id}`}>
+                                            View Details
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
+                        ))}
+                    </div>
+
+
+                    {totalPages > 1 && (
+                        <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
+                            <button
+                                className="btn btn-sm"
+                                onClick={() => goToPage(page - 1)}
+                                disabled={page === 1}
+                            >
+                                Prev
+                            </button>
+
+                            {/* show page numbers */}
+                            {Array.from({ length: totalPages }).map((_, idx) => {
+                                const p = idx + 1;
+                                return (
+                                    <button
+                                        key={p}
+                                        className={`btn btn-sm ${p === page ? "btn-primary text-white" : ""}`}
+                                        onClick={() => goToPage(p)}
+                                    >
+                                        {p}
+                                    </button>
+                                );
+                            })}
+
+                            <button
+                                className="btn btn-sm"
+                                onClick={() => goToPage(page + 1)}
+                                disabled={page === totalPages}
+                            >
+                                Next
+                            </button>
                         </div>
-                    ))}
-                </div>
+                    )}
+                </>
             )}
         </div>
     );

@@ -21,6 +21,7 @@ const TutorDetails = () => {
                 Swal.fire({
                     icon: "error",
                     title: "Failed",
+
                     text: e?.response?.data?.message || "Could not load tutor details",
                 });
             } finally {

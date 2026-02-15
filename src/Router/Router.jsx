@@ -26,6 +26,7 @@ import TutorDetails from "../Pages/Tutor/TutorDetails";
 import PrivateRoute from "./PrivateRoute";
 import StudentRoute from "./StudentRoute";
 import TutorRoute from "./TutorRoute";
+import AdminRoute from "./AdminRoute"
 
 
 export const router = createBrowserRouter([
@@ -79,7 +80,9 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                Component: DashboardHome
+                element: <PrivateRoute>
+                    <DashboardHome></DashboardHome>
+                </PrivateRoute>
             },
             // student page 
             {
@@ -125,7 +128,6 @@ export const router = createBrowserRouter([
                     <TutorRoute>
                         <MyApplications></MyApplications>
                     </TutorRoute>
-
                 </PrivateRoute>
             },
             {
@@ -148,17 +150,29 @@ export const router = createBrowserRouter([
             {
                 path: "user-management",
                 element: <PrivateRoute>
+                    <AdminRoute>
+                        <UserManagement></UserManagement>
+                    </AdminRoute>
 
-                    <UserManagement></UserManagement>
                 </PrivateRoute>
             },
             {
                 path: "tuition-management",
-                element: <PrivateRoute><TuitionManagement></TuitionManagement></PrivateRoute>
+                element:
+                    <PrivateRoute>
+                        <AdminRoute>
+                            <TuitionManagement></TuitionManagement>
+                        </AdminRoute>
+
+                    </PrivateRoute>
             },
             {
                 path: "reports-analytics",
-                element: <PrivateRoute><ReportsAndAnalytics></ReportsAndAnalytics></PrivateRoute>
+                element: <PrivateRoute>
+                    <AdminRoute>
+                        <ReportsAndAnalytics></ReportsAndAnalytics>
+                    </AdminRoute>
+                </PrivateRoute>
             }
         ]
     }
