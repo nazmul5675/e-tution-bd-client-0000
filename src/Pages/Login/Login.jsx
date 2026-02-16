@@ -1,17 +1,32 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import GoogleLogin from "../../Components/SocialMediaLogin/GoogleLogin";
 
 const Login = () => {
-    const { signInUser } = useContext(AuthContext)
+    const { signInUser } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = async (data) => {
-        const result = await signInUser(data.email, data.password)
-        console.log(result);
+    const navigate = useNavigate();
+    const location = useLocation();
 
+
+    const from = location.state?.from?.pathname || "/";
+
+
+    const onSubmit = async (data) => {
+        try {
+            const result = await signInUser(data.email, data.password);
+
+            // wait a tiny moment for auth context to update
+            setTimeout(() => {
+                navigate(from, { replace: true });
+            }, 100);
+
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
@@ -61,15 +76,12 @@ const Login = () => {
                     </div>
                 </form>
 
-                {/* Divider */}
                 <div className="divider">OR</div>
 
-                {/* Social Login */}
                 <div className="flex flex-col gap-3">
-                    <GoogleLogin></GoogleLogin>
+                    <GoogleLogin />
                 </div>
 
-                {/* Footer */}
                 <p className="text-center mt-4 text-gray-500">
                     Don't have an account?{" "}
                     <Link className="text-primary font-semibold" to="/register">
