@@ -52,7 +52,6 @@ const LatestTuitionPosts = () => {
             {/*  Header */}
             <div className="flex items-end justify-between gap-3 flex-wrap">
                 <div>
-                    <h2 className="text-2xl font-bold">Latest Tuition Posts</h2>
                     <p className="opacity-70 mt-1">
                         Recently approved tuition requests from students.
                     </p>

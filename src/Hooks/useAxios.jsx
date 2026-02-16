@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuth, signOut } from "firebase/auth";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:3000/",
+    baseURL: "https://e-tution-bd-server-pearl.vercel.app/",
 });
 
 
