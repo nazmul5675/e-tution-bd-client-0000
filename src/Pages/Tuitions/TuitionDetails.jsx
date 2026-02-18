@@ -168,6 +168,9 @@ const TuitionDetails = () => {
 
     return (
         <div className="p-4 lg:p-8">
+            <title>
+                Tuition Details
+            </title>
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
                     <h1 className="text-2xl font-bold">{tuition.subject}</h1>

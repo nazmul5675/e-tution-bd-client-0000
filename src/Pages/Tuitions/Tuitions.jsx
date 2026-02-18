@@ -122,6 +122,9 @@ const Tuitions = () => {
 
     return (
         <div className="p-4 lg:p-8 max-w-7xl mx-auto px-4 py-16">
+            <title>
+                Tuitions
+            </title>
             <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div>
                     <h1 className="text-2xl font-bold">All Approved Tuitions</h1>

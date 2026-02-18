@@ -184,6 +184,9 @@ const DashboardHome = () => {
 
     return (
         <div className="p-4 lg:p-8">
+            <title>
+                Dashboard Home
+            </title>
             <div className="flex flex-col gap-1">
                 <h1 className="text-2xl font-bold">Welcome, {user?.displayName || "User"} 👋</h1>
                 <p className="opacity-70">

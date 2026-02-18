@@ -48,6 +48,9 @@ const Registration = () => {
 
     return (
         <div className="flex justify-center items-center min-h-screen ">
+            <title>
+                Registration
+            </title>
             <div className="card w-full max-w-md shadow-2xl p-8 rounded-3xl ">
                 <h2 className="text-3xl font-bold text-center text-primary mb-6">
                     Create an Account

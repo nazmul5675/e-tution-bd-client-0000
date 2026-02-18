@@ -207,6 +207,7 @@ const ReportsAndAnalytics = () => {
 
     return (
         <div className="p-4 lg:p-8">
+            <title>Reports & Analytics</title>
             <div className="flex items-start justify-between flex-wrap gap-4">
                 <div>
                     <h1 className="text-2xl font-bold">Reports & Analytics</h1>

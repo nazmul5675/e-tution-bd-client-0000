@@ -4,6 +4,9 @@ import { FaChalkboardTeacher, FaUsers, FaDollarSign } from "react-icons/fa";
 const About = () => {
     return (
         <div className="max-w-7xl mx-auto px-4 py-16">
+            <title>
+                About
+            </title>
             {/* Hero Section */}
             <div className="text-center mb-16">
                 <h1 className="text-4xl font-bold text-primary mb-4">

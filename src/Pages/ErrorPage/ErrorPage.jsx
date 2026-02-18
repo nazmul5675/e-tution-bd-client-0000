@@ -15,6 +15,7 @@ const ErrorPage = () => {
 
     return (
         <div className="min-h-screen bg-base-200 flex items-center justify-center px-4">
+            <title>Error</title>
             <div className="w-full max-w-3xl">
                 <div className="card bg-base-100 shadow-xl">
                     <div className="card-body p-6 md:p-10">

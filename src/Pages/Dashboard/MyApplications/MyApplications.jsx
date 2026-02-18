@@ -185,6 +185,9 @@ const MyApplications = () => {
 
     return (
         <div className="p-4 lg:p-8">
+            <title>
+                My Applications
+            </title>
             <h1 className="text-2xl font-bold">My Applications</h1>
             <p className="opacity-70 mt-1">Track your tuition applications.</p>
 

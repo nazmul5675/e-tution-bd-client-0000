@@ -198,6 +198,7 @@ const ProfileSettings = () => {
 
     return (
         <div className="p-4 lg:p-8">
+            <title>Profile Settings</title>
             <div className="max-w-5xl">
                 <h1 className="text-2xl font-bold">Profile Settings</h1>
                 <p className="opacity-70 mt-1">Update your name, phone and profile photo </p>

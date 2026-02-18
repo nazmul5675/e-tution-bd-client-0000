@@ -147,6 +147,7 @@ const UserManagement = () => {
 
     return (
         <div className="p-4 lg:p-8">
+            <title>User Management</title>
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
                     <h1 className="text-2xl font-bold">User Management</h1>

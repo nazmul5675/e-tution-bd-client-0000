@@ -10,6 +10,9 @@ import LatestTutors from '../../Components/LatestTutors/LatestTutors';
 const Home = () => {
     return (
         <div className='max-w-7xl mx-auto'>
+            <title>
+                Home
+            </title>
             {/* Hero section */}
             <div className='flex sm:flex-row flex-col-reverse justify-between items-center p-5'>
                 <div className='sm:w1/2 w-full'>

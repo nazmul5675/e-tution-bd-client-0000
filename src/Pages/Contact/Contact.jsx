@@ -51,6 +51,9 @@ const Contact = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-16">
+            <title>
+                Contact
+            </title>
             {/* Page Title */}
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-primary mb-4">Contact Us</h1>

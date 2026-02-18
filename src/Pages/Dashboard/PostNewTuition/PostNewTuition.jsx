@@ -108,6 +108,9 @@ const PostNewTuition = () => {
 
     return (
         <div className="p-4 lg:p-8">
+            <title>
+                Post New Tuition
+            </title>
             <div className="max-w-3xl">
                 <h1 className="text-2xl font-bold">Post New Tuition</h1>
                 <p className="opacity-70 mt-1">
