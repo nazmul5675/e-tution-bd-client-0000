@@ -5,9 +5,13 @@ import WhyChooseUs from '../../Components/WhyChooseUs/WhyChooseUs';
 import HowThePlatformWorks from '../../Components/HowThePlatformWorks/HowThePlatformWorks';
 import LatestTuitionPosts from '../../Components/LatestTuitionPosts/LatestTuitionPosts';
 import LatestTutors from '../../Components/LatestTutors/LatestTutors';
+import { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthContext';
+import { Link } from 'react-router';
 
 
 const Home = () => {
+    const { user } = useContext(AuthContext);
     return (
         <div className='max-w-7xl mx-auto'>
             <title>
@@ -19,9 +23,12 @@ const Home = () => {
                     <h1 className="text-4xl font-bold">Country's <span className="text-primary">#1</span> Tutor Matching &
                         Learning Platform.</h1>
                     <p>Hire a conversant tutor to make your children's learning fun, comprehensive & easier.</p>
-                    <button className="mt-5 px-8 py-4 bg-primary text-white rounded-3xl font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-transform">
-                        Get Started
-                    </button>
+
+                    <Link to={user ? "/dashboard" : "/register"}>
+                        <button className="mt-5 px-8 py-4 bg-primary text-white rounded-3xl font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-transform">
+                            Get Started
+                        </button>
+                    </Link>
                 </div>
                 <div className='sm:w1/2 w-full flex justify-center'>
                     <img src={bgImg} alt="" />
