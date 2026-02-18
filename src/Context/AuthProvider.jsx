@@ -10,6 +10,7 @@ import {
 import { auth } from "../Firebase/firebase.init";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const GoogleProvider = new GoogleAuthProvider();
 
@@ -56,6 +57,14 @@ const AuthProvider = ({ children }) => {
         return () => unSubscribed();
     }, []);
 
+    const showToast = (message, type = "success") => {
+        if (type === "success") toast.success(message);
+        else if (type === "error") toast.error(message);
+        else if (type === "info") toast.info(message);
+        else if (type === "warning") toast.warning(message);
+    };
+
+
     const authInfo = {
         user,
         loading,
@@ -65,9 +74,13 @@ const AuthProvider = ({ children }) => {
         signOutUser,
         GoogleLogin,
         setUser,
+        showToast,
     };
 
-    return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={authInfo}>
+        {children}
+        <ToastContainer position="top-right" autoClose={3000} />
+    </AuthContext.Provider>;
 };
 
 export default AuthProvider;

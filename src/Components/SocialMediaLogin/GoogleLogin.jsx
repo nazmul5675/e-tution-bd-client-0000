@@ -5,7 +5,7 @@ import { AuthContext } from '../../Context/AuthContext';
 import useAxios from '../../Hooks/useAxios';
 
 const GoogleLogin = () => {
-    const { GoogleLogin } = useContext(AuthContext);
+    const { GoogleLogin, showToast } = useContext(AuthContext);
     const axiosSecure = useAxios();
 
     const navigate = useNavigate();
@@ -28,10 +28,11 @@ const GoogleLogin = () => {
 
             // save user to database
             await axiosSecure.post('/users', userInfo);
+            showToast("Google Login Successful 🎉", "success");
             navigate(from, { replace: true });
 
         } catch (error) {
-            console.log(error);
+            showToast("Google Login Failed ❌", "error");
         }
     };
 

@@ -5,7 +5,7 @@ import { AuthContext } from "../../Context/AuthContext";
 import GoogleLogin from "../../Components/SocialMediaLogin/GoogleLogin";
 
 const Login = () => {
-    const { signInUser } = useContext(AuthContext);
+    const { signInUser, showToast } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const navigate = useNavigate();
@@ -18,14 +18,14 @@ const Login = () => {
     const onSubmit = async (data) => {
         try {
             const result = await signInUser(data.email, data.password);
-
+            showToast("Login Successful 🎉", "success");
             // wait a tiny moment for auth context to update
             setTimeout(() => {
                 navigate(from, { replace: true });
             }, 100);
 
         } catch (err) {
-            console.error(err);
+            showToast("Invalid Email or Password ❌", "error");
         }
     };
 

@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router";
 import useAxios from "../../Hooks/useAxios";
 
 const Registration = () => {
-    const { registerUserWithEmailPass, updateUser } = useContext(AuthContext);
+    const { registerUserWithEmailPass, updateUser, showToast } = useContext(AuthContext);
     const [role, setRole] = useState("student");
     const axiosSecure = useAxios()
     const navigate = useNavigate();
@@ -20,30 +20,36 @@ const Registration = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
+        try {
+            await registerUserWithEmailPass(data.email, data.password);
+            await updateUser({ displayName: data.name });
 
-        const result = await registerUserWithEmailPass(data.email, data.password);
-        // console.log(result.user);
-        const updateResult = await updateUser({ displayName: data.name });
-        // console.log(updateResult);
-        const userInfo = {
-            name: data.name,
-            email: data.email,
-            role: data.role,
-            phone: data.phone,
-            createdAt: new Date().toISOString(),
-        };
+            const userInfo = {
+                name: data.name,
+                email: data.email,
+                role: data.role,
+                phone: data.phone,
+                createdAt: new Date().toISOString(),
+            };
 
-        axiosSecure.post('/users', userInfo)
-            .then(res => {
-                if (res.data.insertedId) {
-                    alert('user created in successfully', "success");
-                }
-            })
+            await axiosSecure.post('/users', userInfo);
 
+            // Always show toast on success
+            showToast("Registration Successful 🎉", "success");
 
-        navigate(from, { replace: true });
+            // Give toast time to render
+            setTimeout(() => {
+                navigate(from, { replace: true });
+            }, 800);
 
+        } catch (error) {
 
+            if (error.code === "auth/email-already-in-use") {
+                showToast("Email already registered ❌", "error");
+            } else {
+                showToast("Registration Failed ❌", "error");
+            }
+        }
     };
 
     return (

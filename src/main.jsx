@@ -4,6 +4,7 @@ import './index.css'
 import { router } from './Router/Router.jsx'
 import { RouterProvider } from 'react-router'
 import AuthProvider from './Context/AuthProvider.jsx'
+import 'react-toastify/dist/ReactToastify.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
