@@ -16,7 +16,7 @@ const ImageCarousel = () => {
     const prevSlide = () => setCurrent((prev) => (prev - 1 + images.length) % images.length);
 
     return (
-        <div className="relative w-full max-w-7xl sm:h-[600px] mx-auto overflow-hidden rounded-3xl shadow-2xl px-10">
+        <div className="relative w-full max-w-7xl h-[500px] mx-auto overflow-hidden rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg px-10 flex items-center justify-center">
             <AnimatePresence initial={false}>
                 <motion.img
                     key={current}
@@ -26,7 +26,7 @@ const ImageCarousel = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.5 }}
-                    className="w-8/12 mx-auto object-cover"
+                    className="absolute w-8/12 left-1/2 -translate-x-1/2 object-contain"
                 />
             </AnimatePresence>
 

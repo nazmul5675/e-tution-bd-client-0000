@@ -4,7 +4,7 @@ import { AuthContext } from "../../../Context/AuthContext";
 import useAxios from "../../../Hooks/useAxios";
 
 const formatMoney = (amountInSmallestUnit = 0, currency = "usd") => {
-    const value = Number(amountInSmallestUnit || 0) / 100; // cents -> dollars
+    const value = Number(amountInSmallestUnit || 0) / 100;
     try {
         return new Intl.NumberFormat(undefined, {
             style: "currency",
@@ -90,13 +90,19 @@ const RevenueHistory = () => {
         );
     }
 
+    const panelClass =
+        "rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg transition-all transform hover:scale-[1.02] hover:-translate-y-1";
+
     return (
         <div className="p-4 lg:p-8">
             <title>Revenue History</title>
+
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                    <h1 className="text-2xl font-bold">Revenue History</h1>
-                    <p className="opacity-70 mt-1">Your earnings from approved tuition payments.</p>
+                    <h1 className="text-2xl font-bold text-base-content">Revenue History</h1>
+                    <p className="text-base-content/70 mt-1">
+                        Your earnings from approved tuition payments.
+                    </p>
                 </div>
 
                 <div className="join">
@@ -123,26 +129,26 @@ const RevenueHistory = () => {
 
             {/* Summary cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
-                    <div className="card-body">
-                        <p className="text-sm opacity-70">Total Earnings</p>
-                        <p className="text-2xl font-bold">
+                <div className={panelClass}>
+                    <div className="p-5">
+                        <p className="text-sm text-base-content/70">Total Earnings</p>
+                        <p className="text-2xl font-bold text-base-content mt-1">
                             {formatMoney(stats.total, filtered?.[0]?.currency || "usd")}
                         </p>
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow bordbg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
-                    <div className="card-body">
-                        <p className="text-sm opacity-70">Transactions</p>
-                        <p className="text-2xl font-bold">{stats.count}</p>
+                <div className={panelClass}>
+                    <div className="p-5">
+                        <p className="text-sm text-base-content/70">Transactions</p>
+                        <p className="text-2xl font-bold text-base-content mt-1">{stats.count}</p>
                     </div>
                 </div>
 
-                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
-                    <div className="card-body">
-                        <p className="text-sm opacity-70">Latest Payment</p>
-                        <p className="text-base font-semibold">
+                <div className={panelClass}>
+                    <div className="p-5">
+                        <p className="text-sm text-base-content/70">Latest Payment</p>
+                        <p className="text-base font-semibold text-base-content mt-1">
                             {stats.latest ? stats.latest.toLocaleString() : "—"}
                         </p>
                     </div>
@@ -150,14 +156,14 @@ const RevenueHistory = () => {
             </div>
 
             {/* Table */}
-            <div className="card bg-base-100 shadow mt-6">
-                <div className="card-body">
+            <div className="mt-6 rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg">
+                <div className="p-5">
                     {filtered.length === 0 ? (
                         <div className="alert">
                             <span>No payments found.</span>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto rounded-box border border-base-300 bg-base-100/60">
                             <table className="table table-zebra">
                                 <thead>
                                     <tr>
@@ -172,23 +178,29 @@ const RevenueHistory = () => {
                                 <tbody>
                                     {filtered.map((p) => (
                                         <tr key={p._id}>
-                                            <td>{p.createdAt ? new Date(p.createdAt).toLocaleString() : "—"}</td>
-                                            <td>{p.studentEmail || "—"}</td>
-                                            <td>{p.tuitionId || "—"}</td>
-                                            <td className="font-semibold">
+                                            <td className="whitespace-nowrap">
+                                                {p.createdAt ? new Date(p.createdAt).toLocaleString() : "—"}
+                                            </td>
+                                            <td className="max-w-[220px] truncate">{p.studentEmail || "—"}</td>
+                                            <td className="max-w-[220px] truncate">{p.tuitionId || "—"}</td>
+                                            <td className="font-semibold whitespace-nowrap">
                                                 {formatMoney(p.amount, p.currency || "usd")}
                                             </td>
                                             <td>
-                                                <span className={`badge ${p.paymentStatus === "paid" ? "badge-success" : "badge-warning"}`}>
+                                                <span
+                                                    className={`badge ${p.paymentStatus === "paid" ? "badge-success" : "badge-warning"
+                                                        }`}
+                                                >
                                                     {p.paymentStatus || "unknown"}
                                                 </span>
                                             </td>
-                                            <td className="text-xs opacity-80">{p.stripeSessionId || "—"}</td>
+                                            <td className="text-xs text-base-content/80 max-w-[260px] truncate">
+                                                {p.stripeSessionId || "—"}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
-
                         </div>
                     )}
                 </div>

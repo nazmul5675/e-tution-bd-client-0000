@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Lightbulb, Monitor } from "lucide-react";
 
@@ -22,23 +21,38 @@ const teachingSteps = [
 
 const HowWeTeach = () => {
     return (
-        <section className="max-w-7xl mx-auto px-4 py-28 ">
-
-            <div className=" grid grid-cols-1 sm:grid-cols-3 gap-10">
+        <section className="max-w-7xl mx-auto px-4 py-24">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-10">
                 {teachingSteps.map((step, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: i * 0.3, type: "spring", stiffness: 120 }}
-                        className="bg-white/60 backdrop-blur-lg rounded-3xl shadow-2xl p-8 flex flex-col items-center  hover:scale-105 hover:shadow-3xl transition-all cursor-pointer"
+                        transition={{ delay: i * 0.2, type: "spring", stiffness: 120 }}
+                        className="
+              bg-base-300/70 backdrop-blur
+              rounded-box border border-base-300
+              shadow-lg
+              p-8
+              flex flex-col items-center
+              transition-transform duration-200
+              hover:-translate-y-1 hover:scale-[1.02]
+              cursor-pointer
+              focus-within:ring-2 focus-within:ring-primary
+            "
                     >
-                        <div className=" w-16 h-16 rounded-full bg-primary to-secondary flex items-center justify-center mb-6  ">
+                        <div className="w-16 h-16 rounded-full bg-primary/15 text-primary ring-1 ring-primary/20 flex items-center justify-center mb-6">
                             {step.icon}
                         </div>
-                        <h3 className="text-2xl font-semibold text-secondary  mb-3">{step.title}</h3>
-                        <p className=" text-lg text-center leading-relaxed text-secondary">{step.desc}</p>
+
+                        <h3 className="text-xl md:text-2xl font-semibold text-base-content mb-3 text-center">
+                            {step.title}
+                        </h3>
+
+                        <p className="text-base md:text-lg text-center leading-relaxed text-base-content/80">
+                            {step.desc}
+                        </p>
                     </motion.div>
                 ))}
             </div>

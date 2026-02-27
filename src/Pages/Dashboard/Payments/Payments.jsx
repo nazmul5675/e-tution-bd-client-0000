@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import Swal from "sweetalert2";
 import useAxios from "../../../Hooks/useAxios";
 import { AuthContext } from "../../../Context/AuthContext";
-
 
 const money = (amountSmallestUnit, currency = "bdt") => {
     const n = Number(amountSmallestUnit || 0);
@@ -18,15 +17,12 @@ const Payments = () => {
     const { user } = useContext(AuthContext);
     const axiosSecure = useAxios();
 
-
     const [params, setParams] = useSearchParams();
-
 
     const applicationIdFromUrl = params.get("applicationId");
     const success = params.get("success");
     const canceled = params.get("canceled");
     const sessionId = params.get("session_id");
-
 
     const [payments, setPayments] = useState([]);
     const [pendingApps, setPendingApps] = useState([]);
@@ -37,20 +33,23 @@ const Payments = () => {
     const [loading, setLoading] = useState(true);
     const [paying, setPaying] = useState(false);
 
-
     const confirmOnceRef = useRef(false);
 
+    const panelClass =
+        "mt-6 rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg";
+    const panelInner = "p-5";
 
     const fetchPayments = async () => {
         if (!user?.email) return;
-        const res = await axiosSecure.get(`/payments?studentEmail=${encodeURIComponent(user.email)}`);
+        const res = await axiosSecure.get(
+            `/payments?studentEmail=${encodeURIComponent(user.email)}`
+        );
         setPayments(Array.isArray(res.data) ? res.data : []);
     };
 
-    /**  fetch pending applications (not paid yet) */
+    /** fetch pending applications (not paid yet) */
     const fetchPendingApps = async () => {
         if (!user?.email) return;
-        // server supports status query on /applications
         const res = await axiosSecure.get(
             `/applications?studentEmail=${encodeURIComponent(user.email)}&status=pending`
         );
@@ -67,7 +66,7 @@ const Payments = () => {
         setSelectedApp(res.data);
     };
 
-    /**  history + pending + (optional) selected application */
+    /** history + pending + (optional) selected application */
     useEffect(() => {
         const init = async () => {
             if (!user?.email) {
@@ -79,7 +78,6 @@ const Payments = () => {
             try {
                 await Promise.all([fetchPayments(), fetchPendingApps()]);
 
-                // If URL has applicationId, show that application's details
                 if (applicationIdFromUrl) {
                     setSelectedAppId(applicationIdFromUrl);
                     await loadSelectedApplication(applicationIdFromUrl);
@@ -98,13 +96,11 @@ const Payments = () => {
         };
 
         init();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user?.email]);
-
 
     useEffect(() => {
         const afterRedirect = async () => {
-            // show cancel message
             if (canceled) {
                 Swal.fire({
                     icon: "info",
@@ -115,16 +111,13 @@ const Payments = () => {
                 return;
             }
 
-            // Only confirm if we have all needed values
             if (!success || !sessionId || !applicationIdFromUrl) return;
-
 
             if (confirmOnceRef.current) return;
             confirmOnceRef.current = true;
 
             try {
                 setPaying(true);
-
 
                 await axiosSecure.post("/payments/confirm", {
                     session_id: sessionId,
@@ -135,14 +128,12 @@ const Payments = () => {
                     icon: "success",
                     title: "Payment Confirmed!",
                     text: "Application approved and transaction saved.",
-                    confirmButtonColor: "#16a34a", //  green OK
+                    confirmButtonColor: "#16a34a",
                 });
 
-                // 
                 await Promise.all([fetchPayments(), fetchPendingApps()]);
                 await loadSelectedApplication(applicationIdFromUrl);
 
-                // clean URL params so refresh doesn't reconfirm
                 const next = new URLSearchParams(params);
                 next.delete("success");
                 next.delete("session_id");
@@ -165,7 +156,6 @@ const Payments = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [success, canceled, sessionId, applicationIdFromUrl]);
 
-    /**  handlePay now takes appId so you can pay from pending list */
     const handlePay = async (appId) => {
         if (!user?.email) {
             Swal.fire({ icon: "warning", title: "Login required", confirmButtonColor: "#f59e0b" });
@@ -186,7 +176,7 @@ const Payments = () => {
             const url = res?.data?.url;
             if (!url) throw new Error("No checkout URL returned from server");
 
-            window.location.href = url; // redirect to Stripe
+            window.location.href = url;
         } catch (e) {
             console.error(e);
             Swal.fire({
@@ -200,9 +190,7 @@ const Payments = () => {
         }
     };
 
-
     const historyCount = payments.length;
-
 
     if (!user?.email) {
         return (
@@ -226,13 +214,12 @@ const Payments = () => {
 
     return (
         <div className="p-4 lg:p-8">
-            <title>
-                Payments History
-            </title>
+            <title>Payments</title>
+
             <div className="flex items-start justify-between flex-wrap gap-3">
                 <div>
-                    <h1 className="text-2xl font-bold">Payments</h1>
-                    <p className="opacity-70 mt-1">
+                    <h1 className="text-2xl font-bold text-base-content">Payments</h1>
+                    <p className="text-base-content/70 mt-1">
                         Pay tutors (pending applications) and view your payment history.
                     </p>
                 </div>
@@ -253,13 +240,15 @@ const Payments = () => {
                 </button>
             </div>
 
-            {/*  Pending Applications Section (Pay from this page) */}
-            <div className="bg-white/60 p-4 rounded-3xl shadow-2xl mt-6">
-                <div className="card-body">
+            {/* Pending Applications */}
+            <div className={panelClass}>
+                <div className={panelInner}>
                     <div className="flex items-center justify-between flex-wrap gap-2">
-                        <h2 className="text-lg font-bold">Pending Applications (Need Payment)</h2>
-                        <span className="text-sm opacity-70">
-                            Pending: <span className="font-semibold">{pendingApps.length}</span>
+                        <h2 className="text-lg font-bold text-base-content">
+                            Pending Applications (Need Payment)
+                        </h2>
+                        <span className="text-sm text-base-content/70">
+                            Pending: <span className="font-semibold text-base-content">{pendingApps.length}</span>
                         </span>
                     </div>
 
@@ -270,19 +259,30 @@ const Payments = () => {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
                             {pendingApps.map((app) => (
-                                <div key={app._id} className="card bg-base-100 shadow">
-                                    <div className="card-body">
-                                        <h3 className="font-bold">{app?.tuitionSnapshot?.subject || "Tuition"}</h3>
-                                        <p className="text-sm opacity-70">
-                                            Tutor: <span className="font-semibold">{app.tutorName}</span>
+                                <div
+                                    key={app._id}
+                                    className="rounded-box border border-base-300 bg-base-100/60 backdrop-blur shadow-lg"
+                                >
+                                    <div className="p-5">
+                                        <h3 className="font-bold text-base-content">
+                                            {app?.tuitionSnapshot?.subject || "Tuition"}
+                                        </h3>
+
+                                        <p className="text-sm text-base-content/70 mt-1">
+                                            Tutor: <span className="font-semibold text-base-content">{app.tutorName}</span>
                                         </p>
-                                        <p className="text-sm opacity-70">Email: {app.tutorEmail}</p>
-                                        <p className="text-sm">
-                                            Expected Salary: <span className="font-semibold">{app.expectedSalary} BDT</span>
+                                        <p className="text-sm text-base-content/70 truncate">
+                                            Email: {app.tutorEmail}
                                         </p>
 
-                                        <div className="mt-3 flex gap-2">
-                                            {/* view details inside same page */}
+                                        <p className="text-sm text-base-content/80 mt-2">
+                                            Expected Salary:{" "}
+                                            <span className="font-semibold text-base-content">
+                                                {app.expectedSalary} BDT
+                                            </span>
+                                        </p>
+
+                                        <div className="mt-4 flex gap-2">
                                             <button
                                                 className="btn btn-sm btn-outline"
                                                 onClick={async () => {
@@ -293,7 +293,6 @@ const Payments = () => {
                                                 Details
                                             </button>
 
-                                            {/*  pay from pending list */}
                                             <button
                                                 className="btn btn-sm btn-primary"
                                                 onClick={() => handlePay(app._id)}
@@ -310,11 +309,11 @@ const Payments = () => {
                 </div>
             </div>
 
-            {/* Selected Application Details (optional) */}
+            {/* Selected Application Details */}
             {selectedAppId && (
-                <div className="bg-white/60 p-4 rounded-3xl shadow-2xl mt-6">
-                    <div className="card-body">
-                        <h2 className="text-lg font-bold">Selected Application Details</h2>
+                <div className={panelClass}>
+                    <div className={panelInner}>
+                        <h2 className="text-lg font-bold text-base-content">Selected Application Details</h2>
 
                         {!selectedApp ? (
                             <div className="alert mt-3">
@@ -322,21 +321,22 @@ const Payments = () => {
                             </div>
                         ) : (
                             <>
-                                <div className="space-y-2 mt-3">
+                                <div className="space-y-2 mt-3 text-sm text-base-content/80">
                                     <p>
-                                        <span className="font-semibold">Tutor:</span> {selectedApp.tutorName} (
-                                        {selectedApp.tutorEmail})
+                                        <span className="font-semibold text-base-content">Tutor:</span>{" "}
+                                        {selectedApp.tutorName} ({selectedApp.tutorEmail})
                                     </p>
                                     <p>
-                                        <span className="font-semibold">Subject:</span>{" "}
+                                        <span className="font-semibold text-base-content">Subject:</span>{" "}
                                         {selectedApp?.tuitionSnapshot?.subject || "—"}
                                     </p>
                                     <p>
-                                        <span className="font-semibold">Expected Salary:</span>{" "}
+                                        <span className="font-semibold text-base-content">Expected Salary:</span>{" "}
                                         {selectedApp.expectedSalary} BDT
                                     </p>
                                     <p>
-                                        <span className="font-semibold">Status:</span> {selectedApp.status}
+                                        <span className="font-semibold text-base-content">Status:</span>{" "}
+                                        {selectedApp.status}
                                     </p>
                                 </div>
 
@@ -350,7 +350,7 @@ const Payments = () => {
                                     </button>
 
                                     {(selectedApp.status || "").toLowerCase() !== "pending" && (
-                                        <p className="text-sm opacity-70 mt-2">
+                                        <p className="text-sm text-base-content/70 mt-2">
                                             Only pending applications can be paid/approved.
                                         </p>
                                     )}
@@ -361,13 +361,13 @@ const Payments = () => {
                 </div>
             )}
 
-            {/*  Payment History Section */}
-            <div className="bg-white/60 p-4 rounded-3xl shadow-2xl mt-6">
-                <div className="card-body">
+            {/* Payment History */}
+            <div className={panelClass}>
+                <div className={panelInner}>
                     <div className="flex items-center justify-between flex-wrap gap-2">
-                        <h2 className="text-lg font-bold">Payment History</h2>
-                        <span className="text-sm opacity-70">
-                            Total: <span className="font-semibold">{historyCount}</span>
+                        <h2 className="text-lg font-bold text-base-content">Payment History</h2>
+                        <span className="text-sm text-base-content/70">
+                            Total: <span className="font-semibold text-base-content">{historyCount}</span>
                         </span>
                     </div>
 
@@ -376,7 +376,7 @@ const Payments = () => {
                             <span>No payment history yet.</span>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto mt-4">
+                        <div className="overflow-x-auto mt-4 rounded-box border border-base-300 bg-base-100/60">
                             <table className="table table-zebra">
                                 <thead>
                                     <tr>
@@ -391,7 +391,11 @@ const Payments = () => {
                                     {payments.map((p) => {
                                         const st = (p.paymentStatus || "").toLowerCase();
                                         const badgeClass =
-                                            st === "paid" ? "badge badge-success" : st ? "badge badge-warning" : "badge";
+                                            st === "paid"
+                                                ? "badge badge-success"
+                                                : st
+                                                    ? "badge badge-warning"
+                                                    : "badge";
 
                                         return (
                                             <tr key={p._id}>
@@ -399,7 +403,9 @@ const Payments = () => {
                                                     {p.createdAt ? new Date(p.createdAt).toLocaleString() : "—"}
                                                 </td>
                                                 <td className="max-w-[220px] truncate">{p.tutorEmail || "—"}</td>
-                                                <td className="whitespace-nowrap">{money(p.amount, p.currency || "bdt")}</td>
+                                                <td className="whitespace-nowrap">
+                                                    {money(p.amount, p.currency || "bdt")}
+                                                </td>
                                                 <td>
                                                     <span className={badgeClass}>{p.paymentStatus || "—"}</span>
                                                 </td>

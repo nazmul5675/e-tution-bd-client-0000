@@ -25,7 +25,7 @@ const Tuitions = () => {
     });
 
     const [page, setPage] = useState(1);
-    const perPage = 9;
+    const perPage = 8;
 
     useEffect(() => {
         const load = async () => {
@@ -122,16 +122,14 @@ const Tuitions = () => {
 
     return (
         <div className="p-4 lg:p-8 max-w-7xl mx-auto px-4 py-16">
-            <title>
-                Tuitions
-            </title>
+            <title>Tuitions</title>
             <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div>
-                    <h1 className="text-2xl font-bold">All Approved Tuitions</h1>
+                    <h1 className="text-2xl font-bold text-base-content">All Approved Tuitions</h1>
                 </div>
 
                 <input
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full max-w-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     placeholder="Search by subject / location / class..."
                     value={search}
                     onChange={(e) => {
@@ -141,14 +139,13 @@ const Tuitions = () => {
                 />
             </div>
 
-
             <div className="mt-5 flex flex-wrap gap-3 items-end">
                 <div className="form-control w-full max-w-xs">
                     <label className="label">
-                        <span className="label-text">Subject</span>
+                        <span className="label-text text-base-content">Subject</span>
                     </label>
                     <select
-                        className="select select-bordered"
+                        className="select select-bordered focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         value={subjectSel}
                         onChange={(e) => setSubjectSel(e.target.value)}
                     >
@@ -163,10 +160,10 @@ const Tuitions = () => {
 
                 <div className="form-control w-full max-w-xs">
                     <label className="label">
-                        <span className="label-text">Class</span>
+                        <span className="label-text text-base-content">Class</span>
                     </label>
                     <select
-                        className="select select-bordered"
+                        className="select select-bordered focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         value={classSel}
                         onChange={(e) => setClassSel(e.target.value)}
                     >
@@ -181,10 +178,10 @@ const Tuitions = () => {
 
                 <div className="form-control w-full max-w-xs">
                     <label className="label">
-                        <span className="label-text">Location</span>
+                        <span className="label-text text-base-content">Location</span>
                     </label>
                     <select
-                        className="select select-bordered"
+                        className="select select-bordered focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         value={locationSel}
                         onChange={(e) => setLocationSel(e.target.value)}
                     >
@@ -205,14 +202,14 @@ const Tuitions = () => {
                 </button>
             </div>
 
-            <p className="text-sm opacity-70 mt-4">
-                Showing <span className="font-semibold">{paginated.length}</span> of{" "}
-                <span className="font-semibold">{filtered.length}</span> results
+            <p className="text-sm text-base-content/70 mt-4">
+                Showing <span className="font-semibold text-base-content">{paginated.length}</span> of{" "}
+                <span className="font-semibold text-base-content">{filtered.length}</span> results
             </p>
 
             {filtered.length === 0 ? (
-                <div className="card bg-base-100 shadow mt-6">
-                    <div className="card-body">
+                <div className="mt-6 rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg">
+                    <div className="p-5">
                         <div className="alert">
                             <span>No approved tuitions found.</span>
                         </div>
@@ -220,36 +217,43 @@ const Tuitions = () => {
                 </div>
             ) : (
                 <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
                         {paginated.map((t) => (
                             <div
                                 key={t._id}
-                                className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative"
+                                className="rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg transform hover:scale-[1.02] hover:-translate-y-1 transition-all"
                             >
-                                <div className="card-body">
+                                <div className="p-5">
                                     <div className="flex items-start justify-between gap-3">
-                                        <div>
-                                            <h2 className="card-title">{t.subject}</h2>
-                                            <p className="text-sm opacity-70">Class: {t.classLevel}</p>
+                                        <div className="min-w-0">
+                                            <h2 className="font-bold text-lg text-base-content line-clamp-1">
+                                                {t.subject}
+                                            </h2>
+                                            <p className="text-sm text-base-content/70">
+                                                Class: {t.classLevel}
+                                            </p>
                                         </div>
                                         <span className="badge badge-success">Approved</span>
                                     </div>
 
-                                    <div className="divider my-2"></div>
+                                    <div className="divider my-3"></div>
 
-                                    <div className="space-y-2 text-sm">
+                                    <div className="space-y-2 text-sm text-base-content/80">
                                         <p>
-                                            <span className="font-semibold">Location:</span> {t.location}
+                                            <span className="font-semibold text-base-content">Location:</span>{" "}
+                                            {t.location}
                                         </p>
                                         <p>
-                                            <span className="font-semibold">Schedule:</span> {t.schedule}
+                                            <span className="font-semibold text-base-content">Schedule:</span>{" "}
+                                            {t.schedule}
                                         </p>
                                         <p>
-                                            <span className="font-semibold">Budget:</span> {t.budget} BDT
+                                            <span className="font-semibold text-base-content">Budget:</span>{" "}
+                                            {t.budget} BDT
                                         </p>
                                     </div>
 
-                                    <div className="mt-4">
+                                    <div className="mt-5">
                                         <Link className="btn btn-sm btn-primary" to={`/tuitions/${t._id}`}>
                                             View Details
                                         </Link>

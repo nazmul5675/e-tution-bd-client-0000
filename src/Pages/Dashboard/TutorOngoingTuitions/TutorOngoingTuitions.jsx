@@ -79,16 +79,17 @@ const TutorOngoingTuitions = () => {
     return (
         <div className="p-4 lg:p-8">
             <title>Tutor Ongoing Tuitions</title>
+
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                    <h1 className="text-2xl font-bold">Tutor Ongoing Tuitions</h1>
-                    <p className="opacity-70 mt-1">
+                    <h1 className="text-2xl font-bold text-base-content">Tutor Ongoing Tuitions</h1>
+                    <p className="text-base-content/70 mt-1">
                         These are the tuitions approved by students (after successful payment).
                     </p>
                 </div>
 
                 <input
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full max-w-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     placeholder="Search by subject / location / class / student..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -96,8 +97,8 @@ const TutorOngoingTuitions = () => {
             </div>
 
             {filtered.length === 0 ? (
-                <div className="card bg-base-100 shadow mt-6">
-                    <div className="card-body">
+                <div className="mt-6 rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg">
+                    <div className="p-5">
                         <div className="alert">
                             <span>No ongoing tuitions found.</span>
                         </div>
@@ -108,44 +109,49 @@ const TutorOngoingTuitions = () => {
                     {filtered.map((a) => {
                         const t = a?.tuitionSnapshot || {};
                         return (
-                            <div key={a._id} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-5">
-                                <div className="card-body">
+                            <div
+                                key={a._id}
+                                className="rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg transform hover:scale-[1.02] hover:-translate-y-1 transition-all"
+                            >
+                                <div className="p-5">
                                     <div className="flex items-start justify-between gap-3">
-                                        <div>
-                                            <h3 className="font-bold text-lg">{t.subject || "Tuition"}</h3>
-                                            <p className="text-sm opacity-70">
+                                        <div className="min-w-0">
+                                            <h3 className="font-bold text-lg text-base-content line-clamp-1">
+                                                {t.subject || "Tuition"}
+                                            </h3>
+                                            <p className="text-sm text-base-content/70 mt-1">
                                                 Class: {t.classLevel || "—"}
                                             </p>
                                         </div>
                                         <span className="badge badge-success">Approved</span>
                                     </div>
 
-                                    <div className="divider my-2"></div>
+                                    <div className="divider my-3"></div>
 
-                                    <div className="space-y-2 text-sm">
+                                    <div className="space-y-2 text-sm text-base-content/80">
                                         <p>
-                                            <span className="font-semibold">Location:</span>{" "}
+                                            <span className="font-semibold text-base-content">Location:</span>{" "}
                                             {t.location || "—"}
                                         </p>
                                         <p>
-                                            <span className="font-semibold">Schedule:</span>{" "}
+                                            <span className="font-semibold text-base-content">Schedule:</span>{" "}
                                             {t.schedule || "—"}
                                         </p>
                                         <p>
-                                            <span className="font-semibold">Budget:</span>{" "}
+                                            <span className="font-semibold text-base-content">Budget:</span>{" "}
                                             {t.budget ? `${t.budget} BDT` : "—"}
                                         </p>
                                         <p>
-                                            <span className="font-semibold">Student:</span>{" "}
+                                            <span className="font-semibold text-base-content">Student:</span>{" "}
                                             {a.studentName || "—"} ({a.studentEmail || "—"})
                                         </p>
                                         <p>
-                                            <span className="font-semibold">Your Salary:</span>{" "}
+                                            <span className="font-semibold text-base-content">Your Salary:</span>{" "}
                                             {a.expectedSalary ? `${a.expectedSalary} BDT` : "—"}
                                         </p>
                                     </div>
 
-                                    <div className="mt-4 flex gap-2 justify-end">
+                                    <div className="mt-5 flex gap-2 justify-end">
                                         <button
                                             className="btn btn-sm btn-outline"
                                             onClick={() =>
@@ -153,7 +159,6 @@ const TutorOngoingTuitions = () => {
                                                     icon: "info",
                                                     title: "Contact",
                                                     text: `Email: ${a.studentEmail || "N/A"}`,
-
                                                 })
                                             }
                                         >

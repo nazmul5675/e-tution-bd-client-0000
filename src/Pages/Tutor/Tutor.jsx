@@ -10,14 +10,12 @@ const Tutor = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
 
-
     useEffect(() => {
         const loadTutors = async () => {
             setLoading(true);
             try {
                 const res = await axiosSecure.get("/users");
                 const users = Array.isArray(res.data) ? res.data : [];
-
 
                 const onlyTutors = users.filter(
                     (u) => (u?.role || "").toLowerCase() === "tutor"
@@ -38,7 +36,6 @@ const Tutor = () => {
 
         loadTutors();
     }, [axiosSecure]);
-
 
     const filtered = useMemo(() => {
         const q = search.trim().toLowerCase();
@@ -64,19 +61,18 @@ const Tutor = () => {
 
     return (
         <div className="p-4 lg:p-8 max-w-7xl mx-auto px-4 py-16">
-            <title>
-                Tutor
-            </title>
+            <title>Tutor</title>
+
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                    <h1 className="text-2xl font-bold">Tutors</h1>
-                    <p className="opacity-70 mt-1">
+                    <h1 className="text-2xl font-bold text-base-content">Tutors</h1>
+                    <p className="text-base-content/70 mt-1">
                         Browse available tutors on the platform.
                     </p>
                 </div>
 
                 <input
-                    className="input input-bordered w-full max-w-xs"
+                    className="input input-bordered w-full max-w-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     placeholder="Search by name / email / phone..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -84,8 +80,8 @@ const Tutor = () => {
             </div>
 
             {filtered.length === 0 ? (
-                <div className="card bg-base-100 shadow mt-6">
-                    <div className="card-body">
+                <div className="mt-6 rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg">
+                    <div className="p-5">
                         <div className="alert">
                             <span>No tutors found.</span>
                         </div>
@@ -94,27 +90,34 @@ const Tutor = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
                     {filtered.map((t) => (
-                        <div key={t._id} className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
-                            <div className="card-body">
+                        <div
+                            key={t._id}
+                            className="rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg transform hover:scale-[1.02] hover:-translate-y-1 transition-all"
+                        >
+                            <div className="p-5">
                                 <div className="flex items-start gap-4">
                                     <div className="avatar">
-                                        <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                        <div className="w-14 rounded-full ring ring-primary/40 ring-offset-base-100 ring-offset-2">
                                             <img
-                                                src={
-                                                    t?.photoURL ||
-                                                    "https://i.ibb.co/7QpKsCX/user.png"
-                                                }
-                                                alt="Tutor"
+                                                src={t?.photoURL || "https://i.ibb.co/7QpKsCX/user.png"}
+                                                alt={t?.name ? `${t.name} avatar` : "Tutor avatar"}
                                             />
                                         </div>
                                     </div>
 
-                                    <div className="flex-1">
-                                        <h2 className="font-bold text-lg">{t?.name || "Tutor"}</h2>
-                                        <p className="text-sm opacity-70">{t?.email}</p>
+                                    <div className="flex-1 min-w-0">
+                                        <h2 className="font-bold text-lg text-base-content truncate">
+                                            {t?.name || "Tutor"}
+                                        </h2>
+                                        <p className="text-sm text-base-content/70 truncate">
+                                            {t?.email || "—"}
+                                        </p>
                                         {t?.phone && (
-                                            <p className="text-sm opacity-70">Phone: {t.phone}</p>
+                                            <p className="text-sm text-base-content/70 truncate">
+                                                Phone: {t.phone}
+                                            </p>
                                         )}
+
                                         <div className="mt-2">
                                             <span className="badge badge-primary badge-outline">
                                                 Tutor
@@ -125,12 +128,10 @@ const Tutor = () => {
 
                                 <div className="divider my-3" />
 
-
                                 <div className="flex justify-end">
                                     <NavLink to={`/tutors/${t._id}`} className="btn btn-sm btn-primary">
                                         View Details
                                     </NavLink>
-
                                 </div>
                             </div>
                         </div>

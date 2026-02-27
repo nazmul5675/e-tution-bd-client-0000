@@ -2,11 +2,10 @@ import React, { useContext } from "react";
 import { Link, NavLink } from "react-router";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { AuthContext } from "../../Context/AuthContext";
-import Swal from "sweetalert2"; // 
+import Swal from "sweetalert2";
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
-
 
     const publicLinks = (
         <>
@@ -45,7 +44,6 @@ const Navbar = () => {
         </>
     );
 
-
     const handleLogout = async () => {
         try {
             await signOutUser();
@@ -66,7 +64,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto navbar bg-base-100 sticky top-0 z-50 shadow">
+        <div className="max-w-7xl mx-auto navbar bg-base-100 sticky top-0 z-50 border border-base-300 shadow-lg">
             <div className="navbar-start">
                 {/* Mobile dropdown */}
                 <div className="dropdown">
@@ -82,12 +80,11 @@ const Navbar = () => {
                         </svg>
                     </div>
 
-                    {/* tabIndex must be 0 (not -1) */}
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                    <ul
+                        tabIndex={0}
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 border border-base-300 shadow-lg"
+                    >
                         {publicLinks}
-
-
-
                     </ul>
                 </div>
 
@@ -105,61 +102,51 @@ const Navbar = () => {
 
             {/* Right side */}
             <div className="navbar-end gap-3">
-
                 {!user?.email && (
                     <>
-                        <Link to="/login" className="btn text-primary bg-primary/20">
+                        <Link to="/login" className="btn bg-primary/15 text-primary ring-1 ring-primary/20">
                             Login
                         </Link>
-                        <Link to="/register" className="btn btn-primary text-white">
+                        <Link to="/register" className="btn btn-primary text-primary-content">
                             Register
                         </Link>
                     </>
                 )}
 
-
                 {user?.email && (
-                    <>
+                    <div className="dropdown dropdown-end">
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img alt="User" src={user?.photoURL || "https://i.ibb.co/2kR2zZy/default-user.png"} />
+                            </div>
+                        </label>
 
-
-
-
-                        <div className="dropdown dropdown-end">
-                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img
-                                        alt="User"
-                                        src={user?.photoURL || "https://i.ibb.co/2kR2zZy/default-user.png"}
-                                    />
+                        <ul
+                            tabIndex={0}
+                            className="menu menu-sm dropdown-content mt-3 p-2 bg-base-100 rounded-box w-56 border border-base-300 shadow-lg"
+                        >
+                            <li className="pointer-events-none">
+                                <div className="flex flex-col">
+                                    <span className="font-bold text-base-content">{user?.displayName || "User"}</span>
+                                    <span className="text-xs text-base-content/70">{user?.email}</span>
                                 </div>
-                            </label>
+                            </li>
 
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-56">
-                                {/* User info */}
-                                <li className="pointer-events-none">
-                                    <div className="flex flex-col">
-                                        <span className="font-bold">{user?.displayName || "User"}</span>
-                                        <span className="text-xs opacity-70">{user?.email}</span>
-                                    </div>
-                                </li>
+                            <div className="divider my-1"></div>
 
-                                <div className="divider my-1"></div>
+                            <li>
+                                <NavLink to="/dashboard/profile-settings">Profile Settings</NavLink>
+                            </li>
 
-                                <li>
-                                    <NavLink to="/dashboard/profile-settings">Profile Settings</NavLink>
-                                </li>
+                            <div className="divider my-1"></div>
 
-                                <div className="divider my-1"></div>
-
-
-                                <li>
-                                    <button onClick={handleLogout} className="text-red-500">
-                                        Log Out
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </>
+                            <li>
+                                <button onClick={handleLogout} className="text-error">
+                                    Log Out
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 )}
             </div>
         </div>

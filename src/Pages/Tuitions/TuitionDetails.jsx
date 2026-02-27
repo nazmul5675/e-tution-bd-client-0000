@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router";
 import Swal from "sweetalert2";
 import useAxios from "../../Hooks/useAxios";
@@ -58,7 +58,9 @@ const TuitionDetails = () => {
 
                 if (dbRole === "tutor") {
                     const appsRes = await axiosSecure.get(
-                        `/applications?tutorEmail=${encodeURIComponent(user.email)}&tuitionId=${encodeURIComponent(id)}`
+                        `/applications?tutorEmail=${encodeURIComponent(
+                            user.email
+                        )}&tuitionId=${encodeURIComponent(id)}`
                     );
                     setAlreadyApplied(Array.isArray(appsRes.data) && appsRes.data.length > 0);
                 }
@@ -130,7 +132,7 @@ const TuitionDetails = () => {
                     icon: "success",
                     title: "Applied!",
                     text: "Your application is submitted. Status is pending until student approves & pays.",
-                    confirmButtonColor: "#16a34a"
+                    confirmButtonColor: "#16a34a",
                 });
             }
         } catch (e2) {
@@ -160,21 +162,22 @@ const TuitionDetails = () => {
                     <span>Tuition not found.</span>
                 </div>
                 <div className="mt-4">
-                    <Link className="btn btn-sm" to="/tuitions">Back</Link>
+                    <Link className="btn btn-sm" to="/tuitions">
+                        Back
+                    </Link>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="p-4 lg:p-8">
-            <title>
-                Tuition Details
-            </title>
+        <div className="p-4 lg:p-8 max-w-7xl mx-auto px-4 py-16">
+
+            <title>Tuition Details</title>
             <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                    <h1 className="text-2xl font-bold">{tuition.subject}</h1>
-                    <p className="opacity-70 mt-1">Class: {tuition.classLevel}</p>
+                    <h1 className="text-2xl font-bold text-base-content">{tuition.subject}</h1>
+                    <p className="text-base-content/70 mt-1">Class: {tuition.classLevel}</p>
                 </div>
 
                 <button className="btn btn-primary" onClick={openApply} disabled={alreadyApplied}>
@@ -182,46 +185,87 @@ const TuitionDetails = () => {
                 </button>
             </div>
 
-            <div className="bg-white/60 p-5 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-10">
-                <div className="card-body space-y-2 text-sm">
-                    <p><span className="font-semibold">Location:</span> {tuition.location}</p>
-                    <p><span className="font-semibold">Schedule:</span> {tuition.schedule}</p>
-                    <p><span className="font-semibold">Days/Week:</span> {tuition.daysPerWeek || "—"}</p>
-                    <p><span className="font-semibold">Budget:</span> {tuition.budget} BDT</p>
-                    <p><span className="font-semibold">Preferred Tutor Gender:</span> {tuition.preferredTutorGender || "Any"}</p>
-                    <p><span className="font-semibold">Note:</span> {tuition.note || "—"}</p>
+            {/* Details Card */}
+            <div className="mt-10 rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg">
+                <div className="p-6 space-y-2 text-sm text-base-content/80">
+                    <p>
+                        <span className="font-semibold text-base-content">Location:</span>{" "}
+                        {tuition.location}
+                    </p>
+                    <p>
+                        <span className="font-semibold text-base-content">Schedule:</span>{" "}
+                        {tuition.schedule}
+                    </p>
+                    <p>
+                        <span className="font-semibold text-base-content">Days/Week:</span>{" "}
+                        {tuition.daysPerWeek || "—"}
+                    </p>
+                    <p>
+                        <span className="font-semibold text-base-content">Budget:</span>{" "}
+                        {tuition.budget} BDT
+                    </p>
+                    <p>
+                        <span className="font-semibold text-base-content">
+                            Preferred Tutor Gender:
+                        </span>{" "}
+                        {tuition.preferredTutorGender || "Any"}
+                    </p>
+                    <p>
+                        <span className="font-semibold text-base-content">Note:</span>{" "}
+                        {tuition.note || "—"}
+                    </p>
 
-                    <div className="divider"></div>
+                    <div className="divider my-4" />
 
-                    <p><span className="font-semibold">Student:</span> {tuition.studentName || "—"} ({tuition.studentEmail})</p>
-                    <p><span className="font-semibold">Status:</span> {tuition.status}</p>
+                    <p>
+                        <span className="font-semibold text-base-content">Student:</span>{" "}
+                        {tuition.studentName || "—"} ({tuition.studentEmail})
+                    </p>
+                    <p>
+                        <span className="font-semibold text-base-content">Status:</span>{" "}
+                        {tuition.status}
+                    </p>
                 </div>
             </div>
 
             {/* Apply Modal */}
             <dialog ref={modalRef} className="modal">
-                <div className="modal-box">
+                <div className="modal-box rounded-box border border-base-300 bg-base-100 text-base-content">
                     <h3 className="font-bold text-lg">Apply for this Tuition</h3>
-                    <p className="opacity-70 text-sm mt-1">
+                    <p className="text-base-content/70 text-sm mt-1">
                         Name & Email are read-only. Fill qualifications, experience, expected salary.
                     </p>
 
                     <form className="mt-4 space-y-3" onSubmit={handleApply}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div>
-                                <label className="label"><span className="label-text">Name</span></label>
-                                <input className="input input-bordered w-full" readOnly value={user?.displayName || "Tutor"} />
+                                <label className="label">
+                                    <span className="label-text text-base-content">Name</span>
+                                </label>
+                                <input
+                                    className="input input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                                    readOnly
+                                    value={user?.displayName || "Tutor"}
+                                />
                             </div>
                             <div>
-                                <label className="label"><span className="label-text">Email</span></label>
-                                <input className="input input-bordered w-full" readOnly value={user?.email || ""} />
+                                <label className="label">
+                                    <span className="label-text text-base-content">Email</span>
+                                </label>
+                                <input
+                                    className="input input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                                    readOnly
+                                    value={user?.email || ""}
+                                />
                             </div>
                         </div>
 
                         <div>
-                            <label className="label"><span className="label-text">Qualifications</span></label>
+                            <label className="label">
+                                <span className="label-text text-base-content">Qualifications</span>
+                            </label>
                             <input
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                 value={qualifications}
                                 onChange={(e) => setQualifications(e.target.value)}
                                 placeholder="e.g. BSc in Math"
@@ -229,9 +273,11 @@ const TuitionDetails = () => {
                         </div>
 
                         <div>
-                            <label className="label"><span className="label-text">Experience</span></label>
+                            <label className="label">
+                                <span className="label-text text-base-content">Experience</span>
+                            </label>
                             <input
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                 value={experience}
                                 onChange={(e) => setExperience(e.target.value)}
                                 placeholder="e.g. 2 years teaching"
@@ -239,10 +285,14 @@ const TuitionDetails = () => {
                         </div>
 
                         <div>
-                            <label className="label"><span className="label-text">Expected Salary (BDT)</span></label>
+                            <label className="label">
+                                <span className="label-text text-base-content">
+                                    Expected Salary (BDT)
+                                </span>
+                            </label>
                             <input
                                 type="number"
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                 value={expectedSalary}
                                 onChange={(e) => setExpectedSalary(e.target.value)}
                                 placeholder="e.g. 3000"

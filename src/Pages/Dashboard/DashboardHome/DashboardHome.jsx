@@ -22,7 +22,6 @@ const roleCards = {
         { to: "/dashboard/user-management", title: "User Management", desc: "Manage users, roles, and accounts." },
         { to: "/dashboard/tuition-management", title: "Tuition Management", desc: "Approve/reject tuition posts." },
         { to: "/dashboard/reports-analytics", title: "Reports & Analytics", desc: "View platform earnings and transactions." },
-
     ],
 };
 
@@ -33,7 +32,6 @@ const DashboardHome = () => {
     const [role, setRole] = useState(null);
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
-
 
     const [contactMessages, setContactMessages] = useState([]);
     const [newMsgCount, setNewMsgCount] = useState(0);
@@ -52,13 +50,11 @@ const DashboardHome = () => {
 
             setLoading(true);
             try {
-
                 const profileRes = await axiosSecure.get(
                     `/users/profile?email=${encodeURIComponent(user.email)}`
                 );
                 const dbRole = (profileRes?.data?.role || "student").toLowerCase();
                 setRole(dbRole);
-
 
                 if (dbRole === "student") {
                     const [tuitionsRes, appsRes, paysRes] = await Promise.all([
@@ -77,7 +73,6 @@ const DashboardHome = () => {
                     setNewMsgCount(0);
                 }
 
-
                 if (dbRole === "tutor") {
                     const [appsRes, paysRes] = await Promise.all([
                         axiosSecure.get(`/applications?tutorEmail=${encodeURIComponent(user.email)}`),
@@ -94,17 +89,12 @@ const DashboardHome = () => {
                     setNewMsgCount(0);
                 }
 
-
                 if (dbRole === "admin") {
                     const [usersRes, tuitionsRes, paysRes, newContactsRes, latestContactsRes] = await Promise.all([
                         axiosSecure.get(`/users`),
                         axiosSecure.get(`/tuitions`),
                         axiosSecure.get(`/payments`),
-
-
                         axiosSecure.get(`/contacts?status=new&limit=9999`),
-
-
                         axiosSecure.get(`/contacts?limit=5`),
                     ]);
 
@@ -112,8 +102,6 @@ const DashboardHome = () => {
                         a: { label: "Total Users", value: (usersRes.data || []).length },
                         b: { label: "Total Tuitions", value: (tuitionsRes.data || []).length },
                         c: { label: "Transactions", value: (paysRes.data || []).length },
-
-
                         d: { label: "New Messages", value: (newContactsRes.data || []).length },
                     });
 
@@ -135,12 +123,10 @@ const DashboardHome = () => {
         load();
     }, [user?.email, axiosSecure]);
 
-    //  mark a message as "seen"
     const markSeen = async (id) => {
         try {
             await axiosSecure.patch(`/contacts/${id}/status`, { status: "seen" });
 
-            // update UI instantly
             setContactMessages((prev) =>
                 prev.map((m) => (m._id === id ? { ...m, status: "seen" } : m))
             );
@@ -182,26 +168,31 @@ const DashboardHome = () => {
         );
     }
 
+    const panelClass = "rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg";
+
     return (
         <div className="p-4 lg:p-8">
-            <title>
-                Dashboard Home
-            </title>
+            <title>Dashboard Home</title>
+
             <div className="flex flex-col gap-1">
-                <h1 className="text-2xl font-bold">Welcome, {user?.displayName || "User"} 👋</h1>
-                <p className="opacity-70">
-                    Role: <span className="font-semibold capitalize">{role || "student"}</span>
+                <h1 className="text-2xl font-bold text-base-content">
+                    Welcome, {user?.displayName || "User"} 👋
+                </h1>
+                <p className="text-base-content/70">
+                    Role: <span className="font-semibold capitalize text-base-content">{role || "student"}</span>
                 </p>
             </div>
 
-            {/*  Stats cards */}
+            {/* Stats cards */}
             {stats && (
-                <div className={`grid grid-cols-1 md:grid-cols-3 ${role === "admin" ? "xl:grid-cols-4" : ""} gap-4 mt-6`}>
+                <div
+                    className={`grid grid-cols-1 md:grid-cols-3 ${role === "admin" ? "xl:grid-cols-4" : ""} gap-4 mt-6`}
+                >
                     {Object.values(stats).map((s, idx) => (
-                        <div key={idx} className="card bg-base-100 shadow">
-                            <div className="card-body">
-                                <p className="text-sm opacity-70">{s.label}</p>
-                                <p className="text-3xl font-bold mt-1">{s.value}</p>
+                        <div key={idx} className={panelClass}>
+                            <div className="p-5">
+                                <p className="text-sm text-base-content/70">{s.label}</p>
+                                <p className="text-3xl font-bold text-base-content mt-1">{s.value}</p>
                             </div>
                         </div>
                     ))}
@@ -211,29 +202,33 @@ const DashboardHome = () => {
             {/* Role cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
                 {cards.map((c) => (
-                    <NavLink key={c.to} to={c.to} className="card bg-base-100 shadow hover:shadow-lg transition">
-                        <div className="card-body">
-                            <h2 className="card-title">{c.title}</h2>
-                            <p className="opacity-70">{c.desc}</p>
-                            <div className="mt-3">
-                                <span className="btn btn-sm btn-primary">Open</span>
+                    <NavLink
+                        key={c.to}
+                        to={c.to}
+                        className={`${panelClass} transition-transform hover:scale-[1.01] hover:-translate-y-1`}
+                    >
+                        <div className="p-5">
+                            <h2 className="text-xl font-bold text-base-content">{c.title}</h2>
+                            <p className="text-base-content/70 mt-1">{c.desc}</p>
+                            <div className="mt-4">
+                                <span className="btn btn-sm btn-primary text-primary-content">Open</span>
                             </div>
                         </div>
                     </NavLink>
                 ))}
             </div>
 
-
+            {/* Admin Messages */}
             {role === "admin" && (
-                <div className="card bg-base-100 shadow mt-8">
-                    <div className="card-body">
+                <div className={`${panelClass} mt-8`}>
+                    <div className="p-5">
                         <div className="flex items-center justify-between flex-wrap gap-3">
-                            <h2 className="text-xl font-bold">
+                            <h2 className="text-xl font-bold text-base-content">
                                 Latest Contact Messages{" "}
-                                {newMsgCount > 0 && <span className="badge badge-success ml-2">{newMsgCount} new</span>}
+                                {newMsgCount > 0 && (
+                                    <span className="badge badge-success ml-2">{newMsgCount} new</span>
+                                )}
                             </h2>
-
-
                         </div>
 
                         {contactMessages.length === 0 ? (
@@ -241,7 +236,7 @@ const DashboardHome = () => {
                                 <span>No contact messages yet.</span>
                             </div>
                         ) : (
-                            <div className="overflow-x-auto mt-3">
+                            <div className="overflow-x-auto mt-4 rounded-box border border-base-300 bg-base-100/60">
                                 <table className="table table-zebra">
                                     <thead>
                                         <tr>
@@ -273,7 +268,7 @@ const DashboardHome = () => {
                                                             Mark Seen
                                                         </button>
                                                     ) : (
-                                                        <span className="text-xs opacity-60">—</span>
+                                                        <span className="text-xs text-base-content/60">—</span>
                                                     )}
                                                 </td>
                                             </tr>

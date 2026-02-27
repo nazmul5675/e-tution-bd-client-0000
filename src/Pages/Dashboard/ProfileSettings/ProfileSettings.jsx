@@ -40,7 +40,6 @@ const ProfileSettings = () => {
         },
     });
 
-    // Live preview values
     const watchedName = watch("name");
     const watchedPhone = watch("phone");
     const watchedPhotoFile = watch("photoFile");
@@ -52,7 +51,9 @@ const ProfileSettings = () => {
 
             setLoadingProfile(true);
             try {
-                const res = await axiosSecure.get(`/users/profile?email=${encodeURIComponent(user.email)}`);
+                const res = await axiosSecure.get(
+                    `/users/profile?email=${encodeURIComponent(user.email)}`
+                );
                 const dbUser = res.data;
 
                 setSavedProfile({
@@ -100,7 +101,6 @@ const ProfileSettings = () => {
     const uploadToImgbb = async (file) => {
         if (!imgbbKey) throw new Error("Missing IMGBB key (VITE_IMGBB_API_KEY) in client .env");
 
-        // optional: file size check (2MB)
         if (file.size > 2 * 1024 * 1024) {
             throw new Error("Image too large. Please upload max 2MB.");
         }
@@ -136,7 +136,6 @@ const ProfileSettings = () => {
         try {
             let finalPhotoURL = savedProfile.photoURL || user?.photoURL || "";
 
-            // if user selected file, upload to imgbb
             const file = data.photoFile?.[0];
             if (file) {
                 setUploading(true);
@@ -147,12 +146,11 @@ const ProfileSettings = () => {
             const payload = {
                 name: data.name.trim(),
                 phone: data.phone.trim(),
-                photoURL: finalPhotoURL, // keep old if no new file
+                photoURL: finalPhotoURL,
             };
 
             await axiosSecure.patch(`/users/profile?email=${encodeURIComponent(user.email)}`, payload);
 
-            //  update saved card instantly
             setSavedProfile({
                 name: payload.name,
                 email: user.email,
@@ -196,20 +194,25 @@ const ProfileSettings = () => {
 
     const previewPhoto = filePreview || savedProfile.photoURL || user?.photoURL || fallbackImg;
 
+    const panelClass =
+        "rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg transition-all transform hover:scale-[1.02] hover:-translate-y-1";
+
     return (
         <div className="p-4 lg:p-8">
             <title>Profile Settings</title>
             <div className="max-w-5xl">
-                <h1 className="text-2xl font-bold">Profile Settings</h1>
-                <p className="opacity-70 mt-1">Update your name, phone and profile photo </p>
+                <h1 className="text-2xl font-bold text-base-content">Profile Settings</h1>
+                <p className="text-base-content/70 mt-1">
+                    Update your name, phone and profile photo
+                </p>
 
-                {/*  Saved vs Preview */}
+                {/* Saved vs Preview */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                     {/* Saved */}
-                    <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
-                        <div className="card-body">
+                    <div className={panelClass}>
+                        <div className="p-5">
                             <div className="flex items-center justify-between">
-                                <h3 className="font-bold text-lg">Saved Profile</h3>
+                                <h3 className="font-bold text-lg text-base-content">Saved Profile</h3>
                                 <span className="badge badge-success">Saved</span>
                             </div>
 
@@ -222,16 +225,23 @@ const ProfileSettings = () => {
                             ) : (
                                 <div className="flex items-center gap-4 mt-4">
                                     <div className="avatar">
-                                        <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                        <div className="w-16 rounded-full ring ring-primary/40 ring-offset-base-100 ring-offset-2">
                                             <img src={savedProfile.photoURL || fallbackImg} alt="saved" />
                                         </div>
                                     </div>
-                                    <div>
-                                        <p className="font-semibold">{savedProfile.name || "No name"}</p>
-                                        <p className="text-sm opacity-70">{savedProfile.email}</p>
-                                        <p className="text-sm opacity-70">{savedProfile.phone || "No phone"}</p>
+
+                                    <div className="min-w-0">
+                                        <p className="font-semibold text-base-content truncate">
+                                            {savedProfile.name || "No name"}
+                                        </p>
+                                        <p className="text-sm text-base-content/70 truncate">
+                                            {savedProfile.email}
+                                        </p>
+                                        <p className="text-sm text-base-content/70 truncate">
+                                            {savedProfile.phone || "No phone"}
+                                        </p>
                                         {savedProfile.updatedAt && (
-                                            <p className="text-xs opacity-60 mt-1">
+                                            <p className="text-xs text-base-content/60 mt-1">
                                                 Updated: {savedProfile.updatedAt.toLocaleString()}
                                             </p>
                                         )}
@@ -242,72 +252,85 @@ const ProfileSettings = () => {
                     </div>
 
                     {/* Preview */}
-                    <div className="bg-white/60 p-4 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative">
-                        <div className="card-body">
+                    <div className={panelClass}>
+                        <div className="p-5">
                             <div className="flex items-center justify-between">
-                                <h3 className="font-bold text-lg">Live Preview</h3>
+                                <h3 className="font-bold text-lg text-base-content">Live Preview</h3>
                                 <span className="badge badge-warning">Preview</span>
                             </div>
 
                             <div className="flex items-center gap-4 mt-4">
                                 <div className="avatar">
-                                    <div className="w-16 rounded-full ring ring-secondary ring-offset-base-100 ring-offset-2">
+                                    <div className="w-16 rounded-full ring ring-secondary/40 ring-offset-base-100 ring-offset-2">
                                         <img src={previewPhoto} alt="preview" />
                                     </div>
                                 </div>
-                                <div>
-                                    <p className="font-semibold">{watchedName || savedProfile.name || "No name"}</p>
-                                    <p className="text-sm opacity-70">{savedProfile.email}</p>
-                                    <p className="text-sm opacity-70">{watchedPhone || savedProfile.phone || "No phone"}</p>
-                                    {filePreview && <p className="text-xs opacity-60 mt-1">New photo selected</p>}
+
+                                <div className="min-w-0">
+                                    <p className="font-semibold text-base-content truncate">
+                                        {watchedName || savedProfile.name || "No name"}
+                                    </p>
+                                    <p className="text-sm text-base-content/70 truncate">{savedProfile.email}</p>
+                                    <p className="text-sm text-base-content/70 truncate">
+                                        {watchedPhone || savedProfile.phone || "No phone"}
+                                    </p>
+                                    {filePreview && (
+                                        <p className="text-xs text-base-content/60 mt-1">New photo selected</p>
+                                    )}
                                 </div>
                             </div>
 
-                            <div className="divider my-3">Update Form</div>
+                            <div className="divider my-4 text-base-content/70">Update Form</div>
 
                             <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4">
                                 {/* Name */}
                                 <div>
                                     <label className="label">
-                                        <span className="label-text font-semibold">Name</span>
+                                        <span className="label-text font-semibold text-base-content">Name</span>
                                     </label>
                                     <input
-                                        className="input input-bordered w-full"
+                                        className="input input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                         placeholder="Your name"
                                         {...register("name", { required: "Name is required" })}
                                     />
-                                    {errors.name && <p className="text-error text-sm mt-1">{errors.name.message}</p>}
+                                    {errors.name && (
+                                        <p className="text-error text-sm mt-1">{errors.name.message}</p>
+                                    )}
                                 </div>
 
                                 {/* Phone */}
                                 <div>
                                     <label className="label">
-                                        <span className="label-text font-semibold">Phone</span>
+                                        <span className="label-text font-semibold text-base-content">Phone</span>
                                     </label>
                                     <input
-                                        className="input input-bordered w-full"
+                                        className="input input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                         placeholder="e.g. 01XXXXXXXXX"
                                         {...register("phone", {
                                             required: "Phone is required",
                                             minLength: { value: 10, message: "Phone must be at least 10 digits" },
                                         })}
                                     />
-                                    {errors.phone && <p className="text-error text-sm mt-1">{errors.phone.message}</p>}
+                                    {errors.phone && (
+                                        <p className="text-error text-sm mt-1">{errors.phone.message}</p>
+                                    )}
                                 </div>
 
                                 {/* Upload Photo */}
                                 <div>
                                     <label className="label">
-                                        <span className="label-text font-semibold">Upload New Photo</span>
+                                        <span className="label-text font-semibold text-base-content">
+                                            Upload New Photo
+                                        </span>
                                     </label>
                                     <input
                                         type="file"
                                         accept="image/*"
-                                        className="file-input file-input-bordered w-full"
+                                        className="file-input file-input-bordered w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                         {...register("photoFile")}
                                     />
-                                    <p className="text-xs opacity-70 mt-1">
-                                        Select an image (max 2MB). It will be uploaded to imgbb.
+                                    <p className="text-xs text-base-content/70 mt-1">
+                                        Select an image (max 2MB).
                                     </p>
                                 </div>
 

@@ -21,7 +21,6 @@ const TutorDetails = () => {
                 Swal.fire({
                     icon: "error",
                     title: "Failed",
-
                     text: e?.response?.data?.message || "Could not load tutor details",
                 });
             } finally {
@@ -48,41 +47,48 @@ const TutorDetails = () => {
                 <div className="alert alert-warning">
                     <span>Tutor not found.</span>
                 </div>
-                <Link to="/tutors" className="btn btn-link mt-4">Back</Link>
+                <Link to="/tutors" className="btn btn-link mt-4">
+                    Back
+                </Link>
             </div>
         );
     }
 
     return (
         <div className="p-4 lg:p-8 max-w-4xl mx-auto">
-            <title>
-                Tutor Details
-            </title>
-            <Link to="/tutors" className="btn btn-sm btn-primary">← Back</Link>
+            <title>Tutor Details</title>
 
-            <div className="bg-white/60 p-5 rounded-3xl shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all relative mt-5">
-                <div className="card-body">
+            <Link to="/tutors" className="btn btn-sm btn-primary">
+                ← Back
+            </Link>
+
+            <div className="mt-5 rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg">
+                <div className="p-6">
                     <div className="flex flex-col md:flex-row gap-6 items-start">
                         <div className="avatar">
-                            <div className="w-28 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                            <div className="w-28 rounded-full ring ring-primary/40 ring-offset-base-100 ring-offset-2">
                                 <img
                                     src={tutor?.photoURL || "https://i.ibb.co/7QpKsCX/user.png"}
-                                    alt="Tutor"
+                                    alt={tutor?.name ? `${tutor.name} avatar` : "Tutor avatar"}
                                 />
                             </div>
                         </div>
 
                         <div className="flex-1">
-                            <h1 className="text-2xl font-bold">{tutor?.name || "Tutor"}</h1>
-                            <p className="opacity-70 mt-1">{tutor?.email}</p>
+                            <h1 className="text-2xl font-bold text-base-content">
+                                {tutor?.name || "Tutor"}
+                            </h1>
+                            <p className="text-base-content/70 mt-1">{tutor?.email || "—"}</p>
 
                             <div className="mt-3 flex flex-wrap gap-2">
                                 <span className="badge badge-primary badge-outline">
                                     {(tutor?.role || "tutor").toUpperCase()}
                                 </span>
+
                                 {tutor?.status && (
                                     <span className="badge badge-ghost">{tutor.status}</span>
                                 )}
+
                                 {tutor?.isVerified && (
                                     <span className="badge badge-success">Verified</span>
                                 )}
@@ -90,14 +96,16 @@ const TutorDetails = () => {
 
                             <div className="divider my-4" />
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm text-base-content/80">
                                 <p>
-                                    <span className="font-semibold">Phone:</span>{" "}
+                                    <span className="font-semibold text-base-content">Phone:</span>{" "}
                                     {tutor?.phone || "Not provided"}
                                 </p>
                                 <p>
-                                    <span className="font-semibold">Joined:</span>{" "}
-                                    {tutor?.createdAt ? new Date(tutor.createdAt).toLocaleString() : "—"}
+                                    <span className="font-semibold text-base-content">Joined:</span>{" "}
+                                    {tutor?.createdAt
+                                        ? new Date(tutor.createdAt).toLocaleString()
+                                        : "—"}
                                 </p>
                             </div>
 
@@ -121,15 +129,11 @@ const TutorDetails = () => {
                                 >
                                     Contact
                                 </button>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     );
 };
