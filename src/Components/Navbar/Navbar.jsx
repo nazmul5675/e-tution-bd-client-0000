@@ -94,7 +94,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto navbar bg-base-100 sticky top-0 z-50 border border-base-300 shadow-lg px-4 lg:px-0">
+        <div className="max-w-7xl mx-auto navbar bg-base-100 sticky top-0 z-50 border border-base-300 shadow-lg px-10">
             {/* Navbar Start */}
             <div className="navbar-start flex items-center gap-2">
                 {/* Mobile dropdown */}
@@ -121,7 +121,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Brand */}
-                <Link to="/" className="text-xl text-primary font-black mx-4">
+                <Link to="/" className="text-xl text-primary font-black ">
                     eTuitionBd
                 </Link>
 
