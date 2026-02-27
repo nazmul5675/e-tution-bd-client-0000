@@ -21,7 +21,7 @@ const teachingSteps = [
 
 const HowWeTeach = () => {
     return (
-        <section className="max-w-7xl mx-auto px-4 py-24">
+        <section className="max-w-7xl mx-auto px-4 pb-24">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-10">
                 {teachingSteps.map((step, i) => (
                     <motion.div

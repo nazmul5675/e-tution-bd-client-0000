@@ -16,7 +16,7 @@ const ImageCarousel = () => {
     const prevSlide = () => setCurrent((prev) => (prev - 1 + images.length) % images.length);
 
     return (
-        <div className="relative w-full max-w-7xl h-[500px] mx-auto overflow-hidden rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg px-10 flex items-center justify-center">
+        <div className="relative w-full max-w-7xl h-[500px] mx-auto overflow-hidden rounded-box border border-base-300 bg-base-300/70 backdrop-blur shadow-lg px-10 flex items-center justify-center mb-32">
             <AnimatePresence initial={false}>
                 <motion.img
                     key={current}
